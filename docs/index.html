@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Marcus 的个人产出库：查看、追踪并下载可复用的招聘 Skill。">
+  <title>Marcus · 产出库</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2308141f'/%3E%3Cpath d='M15 45V18h8l9 14 9-14h8v27h-8V30l-9 13-9-13v15z' fill='%236ce5d5'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #071018;
+      --panel: #0d1923;
+      --panel-2: #122230;
+      --ink: #edf8f6;
+      --muted: #92a9b2;
+      --line: #223845;
+      --accent: #6ce5d5;
+      --accent-2: #f0b86b;
+      --shadow: 0 18px 60px rgba(0, 0, 0, .28);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 78% 0%, rgba(108, 229, 213, .12), transparent 28rem),
+        linear-gradient(180deg, #071018 0%, #08131d 100%);
+    }
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 78px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 760; letter-spacing: -.02em; }
+    .mark {
+      display: grid; place-items: center; width: 38px; height: 38px;
+      border: 1px solid rgba(108, 229, 213, .45); border-radius: 11px;
+      color: var(--accent); background: rgba(108, 229, 213, .07); font-weight: 850;
+    }
+    .updated { color: var(--muted); font-size: .88rem; }
+    main { padding: 54px 0 76px; }
+    .intro { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(250px, .6fr); gap: 36px; align-items: end; margin-bottom: 42px; }
+    .eyebrow { color: var(--accent); font-size: .78rem; font-weight: 760; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 12px 0 14px; max-width: 760px; font-size: clamp(2.35rem, 6vw, 5.5rem); line-height: .98; letter-spacing: -.065em; }
+    .intro p { max-width: 720px; margin: 0; color: var(--muted); font-size: 1.05rem; line-height: 1.75; }
+    .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .stat { padding: 18px; background: rgba(13, 25, 35, .78); border: 1px solid var(--line); border-radius: 16px; }
+    .stat strong { display: block; font-size: 1.8rem; color: var(--accent); }
+    .stat span { color: var(--muted); font-size: .82rem; }
+    .section-title { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin: 0 0 16px; }
+    .section-title h2 { margin: 0; font-size: 1.1rem; letter-spacing: .02em; }
+    .section-title span { color: var(--muted); font-size: .84rem; }
+    .catalog { display: grid; gap: 18px; }
+    .artifact {
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(18, 34, 48, .96), rgba(12, 24, 34, .96));
+      border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow);
+    }
+    .artifact-main { display: grid; grid-template-columns: 1fr auto; gap: 24px; padding: 26px; }
+    .artifact h3 { margin: 4px 0 8px; font-size: clamp(1.35rem, 3vw, 2rem); letter-spacing: -.035em; }
+    .kicker { color: var(--accent-2); font-size: .76rem; font-weight: 760; letter-spacing: .12em; text-transform: uppercase; }
+    .summary { max-width: 760px; margin: 0; color: #bed0d5; line-height: 1.65; }
+    .meta { display: flex; flex-wrap: wrap; gap: 9px 16px; margin-top: 18px; color: var(--muted); font-size: .86rem; }
+    .meta b { color: var(--ink); font-weight: 650; }
+    .actions { display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: 10px; min-width: 162px; }
+    .download, .details-toggle {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px;
+      border-radius: 12px; font-size: .92rem; font-weight: 720; text-decoration: none; cursor: pointer;
+    }
+    .download { background: var(--accent); color: #05201d; border: 1px solid var(--accent); }
+    .download:hover { filter: brightness(1.06); }
+    .details-toggle { color: var(--ink); background: transparent; border: 1px solid #36505e; }
+    .details-toggle:hover { border-color: var(--accent); }
+    .artifact-details { border-top: 1px solid var(--line); padding: 0 26px 26px; }
+    .artifact-details[hidden] { display: none; }
+    .detail-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 26px; padding-top: 24px; }
+    .detail-grid h4 { margin: 0 0 10px; font-size: .9rem; color: var(--accent); }
+    .content-preview { margin: 0; white-space: pre-wrap; color: #c2d2d6; font: 0.9rem/1.7 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .file-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; color: #b7cbd0; font-size: .86rem; }
+    .file-list li { overflow-wrap: anywhere; }
+    .history { margin-top: 38px; }
+    .history-table { width: 100%; border-collapse: collapse; overflow: hidden; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; }
+    .history-table th, .history-table td { padding: 14px 16px; border-bottom: 1px solid var(--line); text-align: left; font-size: .88rem; }
+    .history-table th { color: var(--muted); font-weight: 640; }
+    .history-table tr:last-child td { border-bottom: 0; }
+    .history-table a { color: var(--accent); text-underline-offset: 3px; }
+    .empty, .error { padding: 34px; border: 1px solid var(--line); border-radius: 18px; color: var(--muted); background: var(--panel); }
+    footer { padding: 26px 0 38px; color: var(--muted); border-top: 1px solid var(--line); font-size: .82rem; }
+    @media (max-width: 760px) {
+      .shell { width: min(100% - 22px, 1180px); }
+      header { min-height: 68px; }
+      .updated { display: none; }
+      main { padding-top: 34px; }
+      .intro, .artifact-main, .detail-grid { grid-template-columns: 1fr; }
+      .intro { gap: 24px; }
+      .actions { min-width: 0; flex-direction: row; }
+      .actions > * { flex: 1; }
+      .artifact-main { padding: 21px; }
+      .artifact-details { padding: 0 21px 22px; }
+      .history { overflow-x: auto; }
+      .history-table { min-width: 680px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="shell">
+    <div class="brand"><span class="mark">M</span><span>Marcus · 产出库</span></div>
+    <div class="updated" id="site-updated">正在读取版本记录</div>
+  </header>
+
+  <main class="shell">
+    <section class="intro" aria-labelledby="page-title">
+      <div>
+        <div class="eyebrow">Personal work archive</div>
+        <h1 id="page-title">每一份产出，<br>都有版本可循。</h1>
+        <p>查看 Marcus 的可复用招聘 Skill、具体内容与文件构成；下载最新版本，也可以回到任意历史版本。</p>
+      </div>
+      <div class="stats" aria-label="产出统计">
+        <div class="stat"><strong id="artifact-count">—</strong><span>项公开产出</span></div>
+        <div class="stat"><strong id="version-count">—</strong><span>个留存版本</span></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="catalog-title">
+      <div class="section-title"><h2 id="catalog-title">最新产出</h2><span>默认展示每项的最新版本</span></div>
+      <div class="catalog" id="catalog"><div class="empty">正在载入产出清单…</div></div>
+    </section>
+
+    <section class="history" aria-labelledby="history-title">
+      <div class="section-title"><h2 id="history-title">版本历史</h2><span>历史包只增不覆盖</span></div>
+      <table class="history-table">
+        <thead><tr><th>产出</th><th>版本</th><th>更新时间</th><th>大小</th><th>下载</th></tr></thead>
+        <tbody id="history-body"><tr><td colspan="5">正在载入版本记录…</td></tr></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer><div class="shell">公开包不包含候选人数据、简历、招聘台账、内部岗位标准或个人配置。</div></footer>
+
+  <script>
+    const fmtSize = bytes => {
+      if (!Number.isFinite(bytes)) return '—';
+      const units = ['B', 'KB', 'MB', 'GB'];
+      let n = bytes, i = 0;
+      while (n >= 1024 && i < units.length - 1) { n /= 1024; i += 1; }
+      return `${n >= 10 || i === 0 ? n.toFixed(0) : n.toFixed(1)} ${units[i]}`;
+    };
+    const fmtDate = value => new Intl.DateTimeFormat('zh-CN', {
+      dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Shanghai'
+    }).format(new Date(value));
+    const esc = value => String(value ?? '').replace(/[&<>'"]/g, char => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    })[char]);
+
+    function renderArtifact(item) {
+      const latest = item.versions[0];
+      const detailId = `details-${item.id}`;
+      return `
+        <article class="artifact">
+          <div class="artifact-main">
+            <div>
+              <div class="kicker">${esc(item.type)}</div>
+              <h3>${esc(item.name)}</h3>
+              <p class="summary">${esc(item.summary)}</p>
+              <div class="meta">
+                <span>最新版本 <b>${esc(latest.version)}</b></span>
+                <span>更新于 <b>${esc(fmtDate(latest.updatedAt))}</b></span>
+                <span><b>${esc(latest.fileCount)}</b> 个文件</span>
+                <span><b>${esc(fmtSize(latest.size))}</b></span>
+              </div>
+            </div>
+            <div class="actions">
+              <a class="download" href="${esc(latest.download)}" download>下载最新版</a>
+              <button class="details-toggle" type="button" aria-expanded="false" aria-controls="${detailId}">查看具体内容</button>
+            </div>
+          </div>
+          <div class="artifact-details" id="${detailId}" hidden>
+            <div class="detail-grid">
+              <div><h4>内容说明</h4><pre class="content-preview">${esc(item.content)}</pre></div>
+              <div><h4>文件清单</h4><ul class="file-list">${latest.files.map(file => `<li>${esc(file)}</li>`).join('')}</ul></div>
+            </div>
+          </div>
+        </article>`;
+    }
+
+    async function init() {
+      try {
+        const response = await fetch('./manifest.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error('清单读取失败');
+        const data = await response.json();
+        const allVersions = data.artifacts.flatMap(item => item.versions.map(version => ({ item, version })));
+        document.querySelector('#site-updated').textContent = `最近同步：${fmtDate(data.generatedAt)}`;
+        document.querySelector('#artifact-count').textContent = data.artifacts.length;
+        document.querySelector('#version-count').textContent = allVersions.length;
+        document.querySelector('#catalog').innerHTML = data.artifacts.map(renderArtifact).join('');
+        document.querySelector('#history-body').innerHTML = allVersions
+          .sort((a, b) => new Date(b.version.updatedAt) - new Date(a.version.updatedAt))
+          .map(({ item, version }) => `<tr>
+            <td>${esc(item.name)}</td><td>${esc(version.version)}</td><td>${esc(fmtDate(version.updatedAt))}</td>
+            <td>${esc(fmtSize(version.size))}</td><td><a href="${esc(version.download)}" download>下载</a></td>
+          </tr>`).join('');
+        document.querySelectorAll('.details-toggle').forEach(button => button.addEventListener('click', () => {
+          const panel = document.getElementById(button.getAttribute('aria-controls'));
+          const open = button.getAttribute('aria-expanded') === 'true';
+          button.setAttribute('aria-expanded', String(!open));
+          button.textContent = open ? '查看具体内容' : '收起具体内容';
+          panel.hidden = open;
+        }));
+      } catch (error) {
+        document.querySelector('#catalog').innerHTML = '<div class="error">产出清单暂时无法载入，请稍后刷新。</div>';
+        document.querySelector('#history-body').innerHTML = '<tr><td colspan="5">版本记录暂时无法载入。</td></tr>';
+      }
+    }
+    init();
+  </script>
+</body>
+</html>
