@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#171c43"><meta name="description" content="税薪测算台批量版：CSV、Excel 批量导入，逐人可配置的税后倒推税前计算器。">
+<title>批量测算 · 税薪测算台</title>
+<style>
+:root{--navy:#171c43;--purple:#6256e7;--indigo:#4239b9;--line:#e5e8f2;--muted:#778199;--ink:#1d2a48;--paper:#f5f7fc;--white:#fff;--good:#168269;--bad:#b24555;--shadow:0 10px 35px #232f6010}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:var(--indigo);text-decoration:none}a:hover{text-decoration:underline}button:disabled{opacity:.5;cursor:not-allowed}input,select,textarea{border:1px solid #dfe3ef;border-radius:9px;background:white;color:var(--ink);min-width:0}input:focus,select:focus,textarea:focus{outline:2px solid #b5b0ff;border-color:#827bf4}input[type=checkbox]{accent-color:var(--purple);width:16px;height:16px;cursor:pointer}
+.header{background:var(--navy);color:#fff}.header-inner{max-width:1640px;margin:auto;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:12px}.brand-icon{width:39px;height:39px;background:#544ae1;border-radius:11px;display:grid;place-items:center;font-size:22px}.brand strong{display:block;font-size:17px}.brand small{display:block;color:#aeb5da;font-size:11px}.navlink{color:#e7e8ff;border:1px solid #555b85;border-radius:9px;padding:9px 13px;font-size:12px}.navlink:hover{color:#fff;background:#313869;text-decoration:none}.container{max-width:1640px;margin:0 auto;padding:26px 26px 56px}.eyebrow{font-weight:700;letter-spacing:2px;color:#797ea9;font-size:11px}.heading{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:18px}.heading h1{font-size:28px;line-height:1.25;margin:4px 0 6px}.heading p{color:var(--muted);margin:0;font-size:13px}.chip{border-radius:20px;border:1px solid #dedcff;background:#f0eeff;color:#655bc0;font-weight:750;padding:7px 12px;font-size:11px}
+.notice{background:#eff0ff;border:1px solid #dfe0ff;border-left:4px solid #7268eb;padding:12px 15px;border-radius:11px;color:#5f6086;font-size:12px;margin:17px 0 20px}.notice b{color:#4944ac}.card{background:white;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow)}.tools{display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:17px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:9px;padding:10px 14px;border:1px solid #dfe2f1;background:white;color:#4c5772;font-weight:650;font-size:12px;white-space:nowrap}.btn:hover{border-color:#aea9ff;color:#4e44ca}.btn.primary{background:var(--purple);color:#fff;border-color:var(--purple)}.btn.primary:hover{background:#4f43cc}.btn.danger{color:#ad4851}.btn.small{padding:6px 9px;font-size:11px}.file-input{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}.file-label{cursor:pointer}.helptext{color:#8b96ac;font-size:11px;margin:0 0 0 auto}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}.stat{padding:16px 18px}.stat small{color:#7d88a0;display:block;font-size:11px}.stat strong{display:block;font-size:22px;font-variant-numeric:tabular-nums;color:#2a3164;margin-top:1px}.stat.primary strong{color:#5448d2}.stat em{font-size:11px;color:#99a1b4;font-style:normal}
+.gridbar{padding:15px 17px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-bottom:1px solid var(--line)}.gridbar strong{font-size:15px}.gridbar small{display:block;color:#929bad;font-size:11px}.table-wrap{overflow:auto;max-height:68vh;min-height:200px}table{width:100%;border-collapse:separate;border-spacing:0;white-space:nowrap}thead th{position:sticky;top:0;background:#f5f6fd;color:#67718b;text-align:left;font-weight:700;font-size:11px;z-index:1;border-bottom:1px solid var(--line)}td,th{padding:11px 11px;border-bottom:1px solid #f0f1f7;vertical-align:middle}tbody tr:hover{background:#fafaff}tbody tr.bad{background:#fff7f7}td .cell-name{border:1px solid transparent;background:transparent;width:120px;padding:7px 8px;font-size:12px}td .cell-name:focus{background:white;border-color:#aba4ff}td .cell-amount{width:126px;padding:7px 8px;font-weight:700;color:#38358d;font-variant-numeric:tabular-nums;font-size:12px}td select{padding:7px 6px;font-size:12px}.numb{text-align:right;font-variant-numeric:tabular-nums}.emphasis{color:#5143c7;font-weight:800}.status{font-size:10px;padding:4px 8px;border-radius:20px;background:#eaf9f3;color:#188063}.status.warning{background:#fff0e6;color:#ac651f}.status.error{background:#ffe8ea;color:#b44254}.empty{padding:52px;text-align:center;color:#9ba2b5}.sticky-note{font-size:12px;color:#8e97ad;padding:11px 17px 15px}.batch-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.batch-actions select,.batch-actions input{padding:8px;font-size:12px;max-width:160px}.msg{border-radius:8px;padding:8px 11px;font-size:12px;margin:0 17px 13px;display:none}.msg.on{display:block}.msg.good{background:#e9f7f1;color:#188167}.msg.bad{background:#ffedf0;color:#b04554}
+.panel-mask{position:fixed;inset:0;background:#1d21426d;z-index:20;display:none}.panel-mask.on{display:block}.editor{position:fixed;z-index:21;right:0;top:0;bottom:0;width:min(720px,100vw);background:white;box-shadow:-15px 0 60px #17204030;transform:translateX(103%);transition:transform .2s ease;display:flex;flex-direction:column}.editor.on{transform:translateX(0)}.editor-top{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}.editor-top h2{font-size:18px;margin:0}.editor-top p{font-size:11px;color:var(--muted);margin:3px 0 0}.editor-body{overflow-y:auto;padding:20px 22px 28px}.editor-body h3{font-size:13px;margin:21px 0 11px;padding-top:12px;border-top:1px solid #eff1f7}.editor-body h3:first-child{margin-top:0;border-top:0;padding-top:0}.editor-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field label{font-size:11px;font-weight:700;color:#56617d;display:block;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;height:39px;padding:7px 10px;font-size:12px}.field textarea{height:70px;resize:vertical}.field .sub{font-size:10px;color:#99a2b6;margin-top:4px}.field.wide{grid-column:1/-1}.manually{background:#f7f6ff;border:1px solid #e8e5ff;padding:12px;border-radius:10px}.manually h3{margin-top:0}.editor-bottom{padding:13px 22px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;justify-content:flex-end}.muted{color:var(--muted);font-size:11px}.guide{padding:18px 21px;margin-top:16px}.guide h3{margin:0 0 9px;font-size:14px}.guide p{color:#707c96;font-size:12px;margin:5px 0}.guide code{font-family:ui-monospace,Consolas,monospace;background:#f1f2fa;border-radius:4px;padding:2px 4px}
+@media(max-width:950px){.stats{grid-template-columns:repeat(2,1fr)}.container{padding:17px 12px 32px}.heading h1{font-size:23px}.header-inner{padding:13px 15px}.tools{padding:13px}.stat{padding:12px}.stat strong{font-size:18px}.helptext{width:100%;margin:0}.editor-fields{grid-template-columns:1fr}.editor{width:min(620px,100vw)}}
+@media print{.header,.tools,.gridbar,.editor,.panel-mask,.guide,.notice,.batch-actions,.sticky-note{display:none!important}.container{padding:0}.table-wrap{max-height:none;overflow:visible}thead th{position:static}body{background:white}}
+</style>
+</head>
+<body>
+<header class="header"><div class="header-inner"><div class="brand"><div class="brand-icon">▤</div><div><strong>税薪测算台</strong><small>HR & FINANCE · BATCH CALCULATOR</small></div></div><a class="navlink" href="./index.html">← 返回单笔测算</a></div></header>
+<main class="container"><div class="heading"><div><div class="eyebrow">BATCH PAYROLL & TAX</div><h1>批量税后倒推 / 税前正算</h1><p>从 Excel 导入多笔课酬或工资，逐笔设置参数、人工校正税额并导出明细。</p></div><span class="chip">2026年11月 · 可自定义参数</span></div>
+<div class="notice"><b>请注意：</b>默认值用于一般居民个人工资及劳务报酬场景。人工修改税率、起征点或税额属于<b>情景模拟 / 根据实际完税结果校正</b>，不代表税法允许自行选择税率。导入的人员和金额数据只在本机浏览器处理，不上传服务器。已确认的实缴数额应以税务机关及扣缴系统记录为准。</div>
+<div class="card tools"><button id="downloadXlsx" class="btn primary">↓ 下载 Excel 模板</button><button id="downloadCsv" class="btn">下载 CSV 模板</button><label for="upload" class="btn file-label">↑ 导入 Excel / CSV</label><input id="upload" class="file-input" type="file" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"><button id="addRow" class="btn">＋ 新增一笔</button><button id="exportAll" class="btn">导出测算结果</button><button id="clearAll" class="btn danger">清空列表</button><p class="helptext">支持 .xlsx / .csv · 最多 500 笔 · 不需要登录</p></div>
+<div class="stats"><div class="card stat"><small>总测算笔数</small><strong id="statCount">0</strong><em>单笔劳务与工资可混合</em></div><div class="card stat primary"><small>企业总支出 / 税前总额</small><strong id="statCost">¥0.00</strong><em>劳务按含税发票额、工资按税前工资</em></div><div class="card stat"><small>最终实得合计</small><strong id="statNet">¥0.00</strong><em>所有税费和工资实扣后</em></div><div class="card stat"><small>本批预扣个税合计</small><strong id="statPit">¥0.00</strong><em>不等于个人全年个税</em></div></div>
+<section class="card"><div class="gridbar"><div><strong>测算明细</strong><small>金额、方向可直接改；点「详细设置」修改该笔全部参数与各税费金额。</small></div><div class="batch-actions"><label class="muted">批量修改选中行：</label><select id="bulkField" aria-label="选择批量修改字段"></select><input id="bulkValue" type="text" placeholder="输入数值或选项" aria-label="批量填充值"><button id="bulkApply" class="btn small">应用</button><button id="selectAll" class="btn small">全选 / 取消</button></div></div><div id="message" class="msg"></div><div class="table-wrap"><table><thead><tr><th>选择</th><th>姓名 / 编号</th><th>收入类型</th><th>方向</th><th class="numb">输入金额（元）</th><th class="numb">税前 / 不含税（元）</th><th class="numb">增值税（元）</th><th class="numb">附加税费（元）</th><th class="numb">预扣个税（元）</th><th class="numb">最终实得（元）</th><th class="numb">企业支出（元）</th><th>校验</th><th>操作</th></tr></thead><tbody id="tbody"><tr><td colspan="13" class="empty">点击「下载 Excel 模板」填写，或直接「新增一笔」开始。</td></tr></tbody></table></div><div class="sticky-note">税后倒推采用「达到目标且税前金额最小」的分位搜索；因税费四舍五入，实际结果可能比目标多几分钱。不同人员的月销售额、社保和上期累计数据必须分别核对。</div></section>
+<section class="card guide"><h3>填写说明</h3><p><b>输入金额：</b>方向设为「税后倒推」时填目标净得，设为「税前正算」时填税前金额；劳务税前正算填<b>不含增值税</b>收入，工资正算填本期税前工资。</p><p><b>手动覆写：</b>详细设置里，增值税、城建税、教育附加、地方教育附加和个税的「手动税额」留空为自动；填 <code>0</code> 表示强制使用零；填其他金额以手填金额参与正反算。结果导出包含全部输入参数，便于复核。</p><p><b>数据保护：</b>建议先用工号或内部编号测试。请勿把含个人身份信息的计算结果文件上传到公开 GitHub 仓库。</p></section></main>
+<div id="mask" class="panel-mask"></div><aside id="editor" class="editor" role="dialog" aria-modal="true" aria-label="逐笔详细设置"><div class="editor-top"><div><h2>逐笔详细设置</h2><p id="editSub">每项金额均可单独调整</p></div><button id="closeEditor" class="btn small">关闭 ×</button></div><div class="editor-body" id="editorBody"></div><div class="editor-bottom"><span class="muted" id="editStatus">修改即保存到本地当前列表</span><button id="saveEditor" class="btn primary">保存并重新计算</button></div></aside>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const RATE_LABOR=[[2000000,.20,0],[5000000,.30,200000],[Infinity,.40,700000]];
+const RATE_SALARY=[[3600000,.03,0],[14400000,.10,252000],[30000000,.20,1692000],[42000000,.25,3192000],[66000000,.30,5292000],[96000000,.35,8592000],[Infinity,.45,18192000]];
+const D={id:'',name:'',kind:'labor',direction:'reverse',amount:50000,paymentDate:'2026-11-04',serviceType:'education',netBasis:'economic',vatPay:'unit',vatRule:'auto',vatRate:1,vatThreshold:1000,dayOther:0,monthOther:0,educationThreshold:100000,cityRate:7,cityDiscount:0.5,educationFee:'auto',educationRate:3,localEduRate:2,otherDeduct:0,expenseBoundary:4000,fixedExpense:800,expenseRate:20,manualVat:'',manualCity:'',manualEducation:'',manualLocalEdu:'',manualPit:'',currStandard:5000,currSocial:0,currSpecial:0,currOther:0,currCash:0,prevGross:0,prevStandard:0,prevSocial:0,prevSpecial:0,prevOther:0,prevPaid:0,remark:''};
+const GROUPS=[
+{title:'基础信息',items:[
+ ['id','记录编号','text','用于记录追溯，不需要身份证号'],['name','姓名 / 内部编号','text','建议使用内部编号'],['kind','收入类型','select',{'labor':'劳务 / 课酬','salary':'工资薪金'}],['direction','计算方向','select',{'reverse':'税后倒推','forward':'税前正算'}],['amount','输入金额（元）','number','倒推填目标净额；正算填不含税劳务额或税前工资'],['paymentDate','支付日期','date','用于提醒优惠政策有效期'],['remark','备注','text','仅供内部记录']]},
+{title:'劳务报酬 · 计税方式',kind:'labor',items:[
+ ['serviceType','服务类别','select',{'education':'教育服务 / 课酬','consult':'咨询服务','software':'软件 / 设计 / 研发','culture':'文化服务','other':'其他劳务'}],['netBasis','税后净额定义','select',{'economic':'最终税后净得','bank':'仅看公司银行到账'}],['vatPay','增值税缴纳方式','select',{'unit':'单位代扣代缴','prepaid':'个人已经缴纳','other':'其他 / 另行核实'}],['vatRule','增值税适用状态','select',{'auto':'按起征点自动','charge':'全额计税','exempt':'已确认免税'}],
+ ['vatRate','增值税征收率（%）','number','税率可调整用于模拟，默认1%'],['vatThreshold','按次（日）起征点（元）','number','默认1000，依据规则调整'],['dayOther','同日其他劳务额（元）','number','同日同单位交易需合并判断'],['monthOther','本月其他不含税销售额（元）','number','用于判断教育附加免征'],['educationThreshold','教育附加月免征阈值（元）','number','默认100000'],['cityRate','城建税率（%）','number','一般市区7%、县镇5%、其他1%'],['cityDiscount','六税两费实际征收系数','number','符合减半优惠填0.5；不减免填1'],['educationFee','教育附加状态','select',{'auto':'自动判断','charge':'按比例征收','exempt':'已确认免征'}],['educationRate','教育费附加率（%）','number','默认3'],['localEduRate','地方教育附加率（%）','number','默认2'],['otherDeduct','其他可扣个税税费（元）','number','仅影响个税税基，不重复计现金流'],['expenseBoundary','劳务费用扣除分界（元）','number','默认4000'],['fixedExpense','劳务固定费用扣除（元）','number','默认800'],['expenseRate','劳务比例费用扣除（%）','number','默认20']]},
+{title:'手动税额覆写 · 留空自动；0 为强制零',kind:'labor',box:true,items:[
+ ['manualVat','增值税手动税额（元）','optional','覆盖自动增值税额'],['manualCity','城建税手动税额（元）','optional','覆盖自动城建税额'],['manualEducation','教育费附加手动税额（元）','optional','覆盖自动教育附加'],['manualLocalEdu','地方教育附加手动税额（元）','optional','覆盖自动地方教育附加']]},
+{title:'工资薪金 · 本期和上期累计数据',kind:'salary',items:[
+ ['currStandard','本期基本减除费用（元）','number','默认5000'],['currSocial','本期个人社保公积金（元）','number','实际缴纳'],['currSpecial','本期专项附加扣除（元）','number','填写适用金额'],['currOther','本期其他税前扣除（元）','number','据实'],['currCash','本期税后其他实扣（元）','number','不影响应纳税所得额'],['prevGross','上期累计工资收入（元）','number','上期扣缴报表'],['prevStandard','上期累计基本减除（元）','number','上期扣缴报表'],['prevSocial','上期累计三险一金（元）','number','上期扣缴报表'],['prevSpecial','上期累计专项附加扣除（元）','number','上期扣缴报表'],['prevOther','上期累计其他扣除（元）','number','上期扣缴报表'],['prevPaid','上期累计已预扣个税（元）','number','上期扣缴报表']]},
+{title:'个税金额手动覆写 · 适用于两种收入',items:[['manualPit','个人所得税手动税额（元）','optional','留空按内置法定预扣税率表；填0强制零。按实缴金额覆写应先核对口径。']]}];
+const FIELDS=GROUPS.flatMap(g=>g.items.map(a=>({key:a[0],label:a[1],type:a[2],info:a[3],group:g.title,applicable:g.kind||'both'})));
+const KEYS=FIELDS.map(f=>f.key), F=Object.fromEntries(FIELDS.map(f=>[f.key,f]));
+let rows=[],currentEdit=-1,draft=null,selection=new Set(),uid=0;
+const cents=n=>Math.round(Number(n)*100),rnum=n=>Math.round(n+1e-9),asYuan=n=>(n/100).toFixed(2),fmtC=n=>'¥'+(n/100).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const safe=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+function taxTable(b,table){let base=Math.max(0,b);if(base<=0)return 0;let row=table.find(x=>base<=x[0]);return Math.max(0,rnum(base*row[1]-row[2]));}
+function override(v){return v!==''&&v!==null&&v!==undefined;}
+function n(v){if(typeof v==='number')return v;let s=String(v??'').replace(/[¥￥,，\s]/g,'');return s===''?NaN:Number(s);}
+function validateRow(row){
+ if(!['labor','salary'].includes(row.kind))throw Error('收入类型只能为 labor / salary');
+ if(!['reverse','forward'].includes(row.direction))throw Error('方向只能为 reverse / forward');
+ for(const f of FIELDS){const v=row[f.key]; if(f.type==='select'&& !(v in f.info))throw Error(f.label+'：选项无效'); if(f.type==='number'||f.type==='optional'){
+   if(f.type==='optional'&&!override(v))continue;
+   let x=n(v);if(!Number.isFinite(x)||x<0)throw Error(f.label+'：请输入大于等于0的有效数字');
+   if(x>1000000000)throw Error(f.label+'：金额过大，请核对');
+   if(['vatRate','cityRate','educationRate','localEduRate','expenseRate'].includes(f.key)&&x>100)throw Error(f.label+'：不能超过100%');
+   if(f.key==='cityDiscount'&&x>1)throw Error('六税两费系数应在0至1之间');
+ }}
+ if(n(row.amount)>100000000)throw Error('单笔金额不支持超过1亿元');
+ if(!/^\d{4}-\d\d-\d\d$/.test(row.paymentDate))throw Error('支付日期请使用 YYYY-MM-DD');
+}
+function calcLabor(g,row){
+ const vatAuto=row.vatRule==='charge'||(row.vatRule==='auto'&&(g+cents(row.dayOther)>=cents(row.vatThreshold)));
+ const vat=override(row.manualVat)?cents(row.manualVat):row.vatRule==='exempt'||!vatAuto?0:rnum(g*row.vatRate/100);
+ const city=override(row.manualCity)?cents(row.manualCity):rnum(vat*row.cityRate/100*row.cityDiscount);
+ const educExempt=row.educationFee==='exempt'||(row.educationFee==='auto'&&(g+cents(row.monthOther)<=cents(row.educationThreshold)));
+ const education=override(row.manualEducation)?cents(row.manualEducation):educExempt?0:rnum(vat*row.educationRate/100*row.cityDiscount);
+ const localEdu=override(row.manualLocalEdu)?cents(row.manualLocalEdu):educExempt?0:rnum(vat*row.localEduRate/100*row.cityDiscount);
+ const sur=city+education+localEdu;
+ const expenses=g<=cents(row.expenseBoundary)?cents(row.fixedExpense):rnum(g*row.expenseRate/100);
+ const pitBase=Math.max(0,g-expenses-sur-cents(row.otherDeduct));
+ const pit=override(row.manualPit)?cents(row.manualPit):taxTable(pitBase,RATE_LABOR);
+ const invoice=g+vat, bank=row.vatPay==='unit'?invoice-vat-sur-pit:invoice-pit;
+ const economic=invoice-vat-sur-pit,targetNet=row.netBasis==='bank'?bank:economic;
+ return {gross:g,invoice,vat,city,education,localEdu,sur,pit,pitBase,expenses,bank,economic,targetNet,companyCost:invoice};
+}
+function calcSalary(g,row){
+ const prevBase=cents(row.prevGross)-cents(row.prevStandard)-cents(row.prevSocial)-cents(row.prevSpecial)-cents(row.prevOther);
+ const base=Math.max(0,prevBase+g-cents(row.currStandard)-cents(row.currSocial)-cents(row.currSpecial)-cents(row.currOther));
+ const pit=override(row.manualPit)?cents(row.manualPit):Math.max(0,taxTable(base,RATE_SALARY)-cents(row.prevPaid));
+ const bank=g-cents(row.currSocial)-cents(row.currCash)-pit;
+ return {gross:g,invoice:g,vat:0,city:0,education:0,localEdu:0,sur:0,pit,pitBase:base,expenses:0,bank,economic:bank,targetNet:bank,companyCost:g};
+}
+function minAtLeast(left,right,target,func){if(left>right||func(right).targetNet<target)return null;let l=left,h=right;while(l<h){let m=Math.floor((l+h)/2);if(func(m).targetNet>=target)h=m;else l=m+1;}return l;}
+function compute(row){
+ validateRow(row);
+ const func=row.kind==='labor'?g=>calcLabor(g,row):g=>calcSalary(g,row);
+ const target=cents(row.amount),ceiling=10000000000; // 1亿元人民币
+ let gross;
+ if(row.direction==='forward')gross=target;
+ else if(row.kind==='salary')gross=minAtLeast(0,ceiling,target,func);
+ else{
+  const starts=[0];
+  if(row.vatRule==='auto'&&!override(row.manualVat))starts.push(Math.max(0,cents(row.vatThreshold)-cents(row.dayOther)));
+  if(row.educationFee==='auto'&&(!override(row.manualEducation)||!override(row.manualLocalEdu)))starts.push(Math.max(0,cents(row.educationThreshold)-cents(row.monthOther)+1));
+  const cuts=[...new Set(starts.filter(v=>v>=0&&v<=ceiling).map(Math.ceil))].sort((a,b)=>a-b);
+  let best=null;
+  cuts.forEach((start,i)=>{const end=i+1<cuts.length?cuts[i+1]-1:ceiling;const guess=minAtLeast(start,end,target,func);if(guess!==null&&(best===null||guess<best))best=guess;});
+  gross=best;
+ }
+ if(gross===null)throw Error('在支持范围内无法达到税后目标，请检查手动税额或金额');
+ const result=func(gross);
+ if(row.direction==='reverse'&&result.targetNet<target)throw Error('倒推未达到目标，需核对参数');
+ return result;
+}
+function newRow(data={}){uid++;return {...D,id:`N${String(uid).padStart(3,'0')}`,...data};}
+function showMessage(t,bad=false){const el=$('message');el.textContent=t;el.className='msg on '+(bad?'bad':'good');}
+function summary(){let cost=0,net=0,pit=0,count=0;rows.forEach(r=>{try{let v=compute(r);cost+=v.companyCost;net+=v.economic;pit+=v.pit;count++;}catch{}});$('statCount').textContent=rows.length;$('statCost').textContent=fmtC(cost);$('statNet').textContent=fmtC(net);$('statPit').textContent=fmtC(pit);}
+function render(){
+ let out=''; rows.forEach((row,i)=>{
+  let x,err='';try{x=compute(row);}catch(e){err=e.message;}
+  const price=x?fmtC(x.companyCost):'—', gross=x?fmtC(x.gross):'—',vat=x?fmtC(x.vat):'—',sur=x?fmtC(x.sur):'—',pit=x?fmtC(x.pit):'—',net=x?fmtC(x.economic):'—';
+  const delta=x&&row.direction==='reverse'?x.targetNet-cents(row.amount):0;
+  const status=err?`<span class="status error" title="${safe(err)}">错误 · 查看</span>`:delta>0?'<span class="status warning">达标 · 有取整差</span>':'<span class="status">已计算</span>';
+  out+=`<tr class="${err?'bad':''}"><td><input aria-label="选择第${i+1}行" type="checkbox" data-select="${i}" ${selection.has(i)?'checked':''}></td><td><input class="cell-name" aria-label="姓名或编号" data-cell="name" data-i="${i}" value="${safe(row.name)}" placeholder="工号 / 姓名"></td><td><select data-cell="kind" data-i="${i}"><option value="labor" ${row.kind==='labor'?'selected':''}>劳务课酬</option><option value="salary" ${row.kind==='salary'?'selected':''}>工资薪金</option></select></td><td><select data-cell="direction" data-i="${i}"><option value="reverse" ${row.direction==='reverse'?'selected':''}>税后倒推</option><option value="forward" ${row.direction==='forward'?'selected':''}>税前正算</option></select></td><td><input class="cell-amount" aria-label="输入金额" type="number" min="0" step="0.01" data-cell="amount" data-i="${i}" value="${safe(row.amount)}"></td><td class="numb">${gross}</td><td class="numb">${vat}</td><td class="numb">${sur}</td><td class="numb">${pit}</td><td class="numb emphasis">${net}</td><td class="numb emphasis">${price}</td><td>${status}</td><td><button class="btn small" data-edit="${i}">详细设置</button> <button class="btn small danger" data-del="${i}">删除</button></td></tr>`;
+ });
+ $('tbody').innerHTML=out||'<tr><td colspan="13" class="empty">暂无记录。点击「新增一笔」或导入 Excel 模板。</td></tr>';
+ summary();
+}
+function selectOptions(obj,sel){return Object.entries(obj).map(([v,l])=>`<option value="${safe(v)}" ${String(sel)===v?'selected':''}>${safe(l)}</option>`).join('');}
+function drawEditor(i){currentEdit=i;draft={...rows[i]};const kind=draft.kind;let html='';
+ GROUPS.forEach(group=>{if(group.kind&&group.kind!==kind)return;html+=`<div class="${group.box?'manually':''}"><h3>${safe(group.title)}</h3><div class="editor-fields">`;
+  group.items.forEach(([key,label,type,details])=>{const v=draft[key]??'',hint=typeof details==='string'?details:'';let control;
+   if(type==='select')control=`<select data-field="${key}">${selectOptions(details,v)}</select>`;
+   else if(type==='date')control=`<input type="date" data-field="${key}" value="${safe(v)}">`;
+   else if(type==='number'||type==='optional')control=`<input type="number" min="0" step="any" data-field="${key}" value="${safe(v)}" placeholder="${type==='optional'?'留空=自动，0=手动清零':'输入数字'}">`;
+   else control=`<input type="text" data-field="${key}" value="${safe(v)}">`;
+   html+=`<div class="field ${key==='remark'?'wide':''}"><label>${safe(label)}</label>${control}${hint?`<div class="sub">${safe(hint)}</div>`:''}</div>`;
+  });html+='</div></div>';
+ });
+ $('editorBody').innerHTML=html;$('editSub').textContent=(draft.name||draft.id||'第'+(i+1)+'笔')+' · 所有输入均可修改';$('editStatus').textContent='点击保存使更改生效';$('mask').classList.add('on');$('editor').classList.add('on');document.body.style.overflow='hidden';
+}
+function closeEditor(){currentEdit=-1;draft=null;$('mask').classList.remove('on');$('editor').classList.remove('on');document.body.style.overflow='';}
+function parseMaybeNumber(key,value){const type=F[key]?.type;if(type==='number'||type==='optional')return String(value??'').trim()===''?(type==='optional'?'':D[key]):n(value);return String(value??'');}
+function makeRow(record){const next=newRow();for(const key of KEYS)if(Object.prototype.hasOwnProperty.call(record,key)&&String(record[key]??'').trim()!=='')next[key]=parseMaybeNumber(key,record[key]);else if(F[key].type==='optional'&&Object.prototype.hasOwnProperty.call(record,key))next[key]='';return next;}
+function csvRows(source){const s=source.replace(/^\ufeff/,'');let a=[],row=[],field='',quoted=false;for(let i=0;i<s.length;i++){let c=s[i];if(quoted){if(c==='"'&&s[i+1]==='"'){field+='"';i++;}else if(c==='"')quoted=false;else field+=c;}else if(c==='"')quoted=true;else if(c===','){row.push(field);field='';}else if(c==='\n'||c==='\r'){if(c==='\r'&&s[i+1]==='\n')i++;row.push(field);if(row.some(x=>String(x).trim()!==''))a.push(row);row=[];field='';}else field+=c;}if(quoted)throw Error('CSV 引号没有正确闭合');row.push(field);if(row.some(x=>String(x).trim()!==''))a.push(row);return a;}
+function csvText(matrix){const cells=v=>{let s=String(v??'');if(/^[=+\-@\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';};return '\ufeff'+matrix.map(r=>r.map(cells).join(',')).join('\r\n');}
+function saveDownload(data,name,type){const blob=new Blob([data],{type}),link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download=name;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(link.href),2000);}
+const SAMPLE_LABOR={...D,id:'L001',name:'示例-课酬（请替换）',kind:'labor',direction:'reverse',amount:50000};
+const SAMPLE_SALARY={...D,id:'S001',name:'示例-工资（请替换）',kind:'salary',direction:'reverse',amount:15000,currSocial:1500,prevGross:120000,prevStandard:30000,prevSocial:9000,prevPaid:4000};
+const sampleMatrix=()=>[KEYS,...[SAMPLE_LABOR,SAMPLE_SALARY].map(o=>KEYS.map(k=>o[k]))];
+const colNumber=col=>[...col].reduce((n,c)=>n*26+c.charCodeAt(0)-64,0)-1;
+const colLetters=n=>{let s='';n++;while(n){n--;s=String.fromCharCode(65+n%26)+s;n=Math.floor(n/26);}return s;};
+// Read only the first worksheet of a standard .xlsx file. Runs completely within the user's browser.
+async function xlsxMatrix(file){const bytes=new Uint8Array(await file.arrayBuffer()),view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);const u16=p=>view.getUint16(p,true),u32=p=>view.getUint32(p,true);let pos=-1;for(let p=bytes.length-22;p>=Math.max(0,bytes.length-66000);p--){if(u32(p)===0x06054b50){pos=p;break;}}if(pos<0)throw Error('Excel 文件 ZIP 目录损坏');let cursor=u32(pos+16),files=new Map(),count=u16(pos+10);const decoder=new TextDecoder();for(let i=0;i<count;i++){if(u32(cursor)!==0x02014b50)throw Error('Excel ZIP 中央目录无效');const method=u16(cursor+10),size=u32(cursor+20),nameLength=u16(cursor+28),extra=u16(cursor+30),comment=u16(cursor+32),offset=u32(cursor+42),name=decoder.decode(bytes.slice(cursor+46,cursor+46+nameLength));files.set(name,{method,size,offset});cursor+=46+nameLength+extra+comment;}
+ const read=async name=>{const e=files.get(name);if(!e)return null;const o=e.offset,begin=o+30+u16(o+26)+u16(o+28);const part=bytes.slice(begin,begin+e.size);if(e.method===0)return decoder.decode(part);if(e.method===8){if(typeof DecompressionStream==='undefined')throw Error('当前浏览器不支持 Excel 解压，请改用 CSV');try{return await new Response(new Blob([part]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text();}catch{throw Error('Excel 解压失败；请使用最新版 Chrome 或改用 CSV');}}throw Error('Excel ZIP 压缩方式不支持');};
+ const xml=txt=>{const doc=new DOMParser().parseFromString(txt,'application/xml');if(doc.getElementsByTagNameNS('*','parsererror').length)throw Error('Excel XML 文件格式错误');return doc;};
+ const ssxml=await read('xl/sharedStrings.xml');const strings=ssxml?[...xml(ssxml).getElementsByTagNameNS('*','si')].map(si=>[...si.getElementsByTagNameNS('*','t')].map(x=>x.textContent).join('')):[];
+ let sheet=await read('xl/worksheets/sheet1.xml');if(!sheet){let names=[...files.keys()].filter(s=>/^xl\/worksheets\/sheet\d+\.xml$/.test(s)).sort();sheet=names.length?await read(names[0]):null;}if(!sheet)throw Error('Excel 找不到第一个工作表');const doc=xml(sheet),out=[];
+ for(const r of [...doc.getElementsByTagNameNS('*','row')]){let values=[];for(const c of [...r.getElementsByTagNameNS('*','c')]){let index=colNumber((c.getAttribute('r')||'A1').match(/^[A-Z]+/i)?.[0].toUpperCase()||'A');const t=c.getAttribute('t');let value='';const v=c.getElementsByTagNameNS('*','v')[0];if(t==='inlineStr')value=[...c.getElementsByTagNameNS('*','t')].map(x=>x.textContent).join('');else if(t==='s')value=strings[Number(v?.textContent)]??'';else if(v)value=v.textContent;values[index]=value;}if(values.some(x=>String(x??'').trim()!==''))out.push(values.map(x=>x??''));}
+ return out;
+}
+const escXml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
+function makeSheet(matrix){const rowsXml=matrix.map((items,ri)=>`<row r="${ri+1}">${items.map((v,ci)=>{const ref=colLetters(ci)+(ri+1);if(v===null||v===undefined||v==='')return '';if(typeof v==='number'&&Number.isFinite(v))return `<c r="${ref}"><v>${v}</v></c>`;return `<c r="${ref}" t="inlineStr"><is><t>${escXml(v)}</t></is></c>`;}).join('')}</row>`).join('');return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><sheetData>${rowsXml}</sheetData></worksheet>`;}
+const crcTable=(()=>{const a=new Uint32Array(256);for(let i=0;i<256;i++){let c=i;for(let j=0;j<8;j++)c=c&1?0xedb88320^(c>>>1):c>>>1;a[i]=c>>>0;}return a;})();
+const crc32=bytes=>{let c=0xffffffff;for(let b of bytes)c=crcTable[(c^b)&255]^(c>>>8);return(c^0xffffffff)>>>0;};
+function makeZip(obj){const enc=new TextEncoder(),local=[],central=[];let offset=0;const put16=(a,p,v)=>{a[p]=v&255;a[p+1]=v>>>8&255},put32=(a,p,v)=>{put16(a,p,v&65535);put16(a,p+2,Math.floor(v/65536))};const concat=a=>{const all=new Uint8Array(a.reduce((s,b)=>s+b.length,0));let p=0;for(let b of a){all.set(b,p);p+=b.length;}return all;};let num=0;
+ for(const[name,contents]of Object.entries(obj)){const filename=enc.encode(name),body=enc.encode(contents),crc=crc32(body),l=new Uint8Array(30),c=new Uint8Array(46);put32(l,0,0x04034b50);put16(l,4,20);put16(l,6,0x0800);put32(l,14,crc);put32(l,18,body.length);put32(l,22,body.length);put16(l,26,filename.length);put32(c,0,0x02014b50);put16(c,4,20);put16(c,6,20);put16(c,8,0x0800);put32(c,16,crc);put32(c,20,body.length);put32(c,24,body.length);put16(c,28,filename.length);put32(c,42,offset);local.push(l,filename,body);central.push(c,filename);offset+=l.length+filename.length+body.length;num++;}
+ const cent=concat(central),end=new Uint8Array(22);put32(end,0,0x06054b50);put16(end,8,num);put16(end,10,num);put32(end,12,cent.length);put32(end,16,offset);return concat([...local,cent,end]);}
+function templateXlsx(){const description=[['字段名','中文名称','字段组','填写说明 / 可选值'],...FIELDS.map(f=>[f.key,f.label,f.group,f.type==='select'?Object.entries(f.info).map(([k,v])=>`${k}=${v}`).join('；'):String(f.info||'')])];const parts={
+ '[Content_Types].xml':'<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>',
+ '_rels/.rels':'<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>',
+ 'xl/workbook.xml':'<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="批量导入" sheetId="1" r:id="rId1"/><sheet name="字段说明" sheetId="2" r:id="rId2"/></sheets></workbook>',
+ 'xl/_rels/workbook.xml.rels':'<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/></Relationships>',
+ 'xl/worksheets/sheet1.xml':makeSheet(sampleMatrix()),'xl/worksheets/sheet2.xml':makeSheet(description)};
+ saveDownload(makeZip(parts),'税薪测算台_批量导入模板.xlsx','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+}
+function fromMatrix(matrix){if(!matrix.length)throw Error('文件为空');const head=matrix[0].map(x=>String(x??'').replace(/^\ufeff/,'').trim());if(!head.includes('amount')||!head.includes('kind')||!head.includes('direction'))throw Error('模板缺少 amount、kind 或 direction 列。请下载本站模板填写。');const keys=head.map(x=>KEYS.includes(x)?x:null);const imported=[];for(const [index,r] of matrix.slice(1).entries()){
+ if(!r.some(x=>String(x??'').trim()!==''))continue;const item={};keys.forEach((k,i)=>{if(k)item[k]=r[i]??'';});if(/^\d+(?:\.\d+)?$/.test(String(item.paymentDate??''))){const serial=Number(item.paymentDate);if(serial>30000&&serial<100000)item.paymentDate=new Date(Date.UTC(1899,11,30)+Math.round(serial)*86400000).toISOString().slice(0,10);}const row=makeRow(item);try{validateRow(row);}catch(e){throw Error(`第 ${index+2} 行（${row.name||row.id}）：${e.message}`);}imported.push(row);if(imported.length>500)throw Error('单次最多导入500笔');}
+ return imported;
+}
+$('addRow').addEventListener('click',()=>{if(rows.length>=500)return showMessage('最多500笔，请先导出或删除部分记录',true);rows.push(newRow({name:''}));render();drawEditor(rows.length-1);});
+$('clearAll').addEventListener('click',()=>{if(!rows.length)return;if(confirm('确定清空当前全部测算数据吗？此操作无法恢复。')){rows=[];selection.clear();render();showMessage('已清空当前列表。');}});
+$('downloadCsv').addEventListener('click',()=>saveDownload(csvText(sampleMatrix()),'税薪测算台_批量导入模板.csv','text/csv;charset=utf-8'));
+$('downloadXlsx').addEventListener('click',templateXlsx);
+$('upload').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>5*1024*1024)throw Error('文件不能超过5MB');const matrix=/\.csv$/i.test(file.name)?csvRows(await file.text()):/\.xlsx$/i.test(file.name)?await xlsxMatrix(file):(()=>{throw Error('只支持 xlsx 或 csv')})();const add=fromMatrix(matrix);if(!add.length)throw Error('没有找到有效数据行');if(rows.length+add.length>500)throw Error('导入后超过500笔，请先清空列表');rows.push(...add);render();showMessage(`成功导入 ${add.length} 笔；示例行如不需要，请删除或替换。`);}catch(ex){showMessage(`导入失败：${ex.message}`,true);}finally{e.target.value='';}});
+$('tbody').addEventListener('change',e=>{let i=Number(e.target.dataset.i),key=e.target.dataset.cell;if(!Number.isInteger(i)||i<0||!key)return;const v=e.target.value;rows[i][key]=F[key].type==='number'?n(v):v;render();});
+$('tbody').addEventListener('click',e=>{const edit=e.target.closest('[data-edit]'),del=e.target.closest('[data-del]');if(edit){drawEditor(Number(edit.dataset.edit));return;}if(del){const i=Number(del.dataset.del);rows.splice(i,1);selection.clear();render();return;}});
+$('tbody').addEventListener('change',e=>{if(e.target.matches('[data-select]')){const i=Number(e.target.dataset.select);if(e.target.checked)selection.add(i);else selection.delete(i);}});
+$('selectAll').addEventListener('click',()=>{if(selection.size===rows.length)selection.clear();else selection=new Set(rows.map((_,i)=>i));render();});
+$('saveEditor').addEventListener('click',()=>{try{const changed={...draft};$('editorBody').querySelectorAll('[data-field]').forEach(el=>{const key=el.dataset.field;changed[key]=parseMaybeNumber(key,el.value);});validateRow(changed);compute(changed);rows[currentEdit]=changed;closeEditor();render();showMessage('已保存该笔自定义参数，并重新测算。');}catch(err){$('editStatus').textContent='⚠ '+err.message;}});
+$('closeEditor').addEventListener('click',closeEditor);$('mask').addEventListener('click',closeEditor);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&currentEdit>=0)closeEditor();});
+const BULK_FIELDS=FIELDS.filter(f=>f.type==='number'||f.type==='optional'||f.type==='select').filter(f=>f.key!=='id');$('bulkField').innerHTML=BULK_FIELDS.map(f=>`<option value="${f.key}">${safe(f.label)}</option>`).join('');
+$('bulkApply').addEventListener('click',()=>{const key=$('bulkField').value,field=F[key],v=$('bulkValue').value.trim();if(!selection.size)return showMessage('请先勾选需要批量修改的记录',true);if(!field)return;let parsed;if(field.type==='select'){if(!(v in field.info))return showMessage('选项请填写对应的英文值；详细设置中可查看',true);parsed=v;}else if(field.type==='optional'&&v==='')parsed='';else{parsed=n(v);if(!Number.isFinite(parsed)||parsed<0)return showMessage('请输入有效的非负数值',true);}const changes=[];for(const i of selection){const temp={...rows[i],[key]:parsed};try{validateRow(temp);compute(temp);changes.push([i,temp]);}catch(e){return showMessage(`第${i+1}笔：${e.message}`,true);}}changes.forEach(([i,temp])=>rows[i]=temp);render();showMessage(`已批量修改 ${changes.length} 笔的「${field.label}」。`);});
+$('exportAll').addEventListener('click',()=>{if(!rows.length)return showMessage('请先新增记录或导入文件',true);const derived=['计算状态','不含税劳务收入/本期工资','含税发票额/工资额','增值税','城建税','教育费附加','地方教育附加','附加税费合计','个人所得税','公司转账额','最终净得','企业总支出','目标差额','个税税基'];const matrix=[ [...KEYS,...derived] ];rows.forEach(row=>{let v,status='正常';try{v=compute(row);}catch(e){status='错误：'+e.message;}matrix.push([...KEYS.map(k=>row[k]),status,...(v?[v.gross,v.invoice,v.vat,v.city,v.education,v.localEdu,v.sur,v.pit,v.bank,v.economic,v.companyCost,(v.targetNet-cents(row.amount)),v.pitBase].map(asYuan):Array(derived.length-1).fill(''))]);});saveDownload(csvText(matrix),'税薪测算台_批量计算结果_'+new Date().toISOString().slice(0,10)+'.csv','text/csv;charset=utf-8');showMessage('已导出含全部输入参数和税额明细的CSV文件。');});
+// Deterministic test hook; no personal data is stored or transmitted.
+window.BatchTaxCalc={D,FIELDS,calcLabor,calcSalary,compute,templateXlsx,xlsxMatrix,fromMatrix,csvRows};
+render();
+})();
+
+</script>
+</body></html>
