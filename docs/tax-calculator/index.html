@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="面向HR和财务的2026税后倒推税前计算器，支持居民个人劳务报酬、增值税、附加税费及工资薪金累计预扣。" />
+  <meta name="theme-color" content="#171b43" />
+  <title>税薪测算台｜税后倒推税前 · HR实用工具</title>
+  <style>
+    :root { color-scheme: light; --ink:#172342; --muted:#707c94; --line:#e6e9f2; --accent:#6557f4; --accent2:#4b43cb; --soft:#f5f5ff; --card:#fff; --paper:#f5f7fc; --warn:#a65a18; --good:#21866b; --shadow:0 13px 45px rgba(34,43,91,.055); }
+    * {box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Inter,Arial,sans-serif;font-size:14px;line-height:1.6}
+    button,input,select{font:inherit} button{cursor:pointer} a{color:#5048cc;text-decoration:none} a:hover{text-decoration:underline} :focus-visible{outline:3px solid #9c9aff;outline-offset:2px}
+    .app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh;max-width:1800px;margin:auto}
+    aside{background:#171c43;color:#dce1ff;padding:34px 22px;position:sticky;top:0;align-self:start;min-height:100vh;display:flex;flex-direction:column}
+    .brand{display:flex;align-items:center;gap:12px;margin-bottom:45px;padding-left:6px}.logo{width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,#7d77ff,#4e40cf);display:grid;place-items:center;font-size:22px;color:white;box-shadow:0 8px 20px #4338ca55}.brand strong{display:block;color:white;font-size:18px;letter-spacing:.6px}.brand small{color:#999fc4;font-size:11px;letter-spacing:1px}
+    .side-label{color:#8289ae;font-size:11px;letter-spacing:2px;margin:0 12px 12px}.nav{border:0;background:transparent;color:#aeb5db;width:100%;text-align:left;border-radius:11px;padding:12px 13px;margin:3px 0;display:flex;align-items:center;gap:12px;font-weight:600}.nav span{width:23px;text-align:center;font-size:17px}.nav:hover{background:#292f5b;color:white}.nav.active{background:#383c82;color:white}.side-bottom{margin-top:auto;padding:18px 10px 7px;color:#858dac;font-size:12px;border-top:1px solid #353958}.side-bottom b{color:#d0d6fc;font-size:12px}
+    main{min-width:0;padding:34px clamp(20px,4vw,60px) 60px}.topbar{display:flex;gap:20px;justify-content:space-between;align-items:center;margin-bottom:28px}.eyebrow{letter-spacing:2.3px;color:#8b8eaf;font-size:11px;font-weight:700}.topbar h1{font-size:27px;line-height:1.3;margin:5px 0 5px;letter-spacing:-.6px}.topbar p{color:var(--muted);margin:0;font-size:13px}.version{white-space:nowrap;border:1px solid #e1e3ff;background:#fff;border-radius:100px;color:#5854ad;font-weight:650;padding:7px 13px;font-size:12px}
+    .notice{border:1px solid #dee3fb;border-left:4px solid #6b5eff;background:#f2f2ff;border-radius:12px;padding:13px 16px;display:flex;align-items:flex-start;gap:11px;color:#585c84;margin-bottom:22px;font-size:12.5px}.notice b{color:#4e48b4}.notice .info{font-size:17px;color:#6557f4}
+    .workspace{display:grid;grid-template-columns:minmax(330px,.96fr) minmax(390px,1.04fr);gap:22px;align-items:start}
+    .panel{background:var(--card);border:1px solid #eceefa;border-radius:18px;box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:21px 24px 15px;display:flex;justify-content:space-between;align-items:center}.panel-title{font-weight:800;font-size:17px}.panel-sub{color:var(--muted);font-size:12px;margin:2px 0 0}.body{padding:0 24px 24px}
+    .seg{background:#f0f1fa;border-radius:11px;padding:4px;display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:9px 0 22px}.seg button{border:0;background:transparent;border-radius:8px;color:#7b849b;padding:10px 3px;font-size:13px;font-weight:650}.seg button.active{background:white;color:#574be3;box-shadow:0 1px 7px #252b6130}
+    .amount-lab{font-size:12px;font-weight:700;display:block;margin-bottom:8px;color:#46516f}.amount-wrap{border:1.6px solid #b3b0fa;background:#fafaff;border-radius:12px;display:flex;align-items:center;height:62px;padding:0 14px;gap:7px}.amount-wrap:focus-within{box-shadow:0 0 0 3px #6a61ff1d;border-color:#7267f3}.currency{font-size:22px;font-weight:700;color:#5149c1}.amount-wrap input{background:transparent;border:0;min-width:0;width:100%;outline:0;font-size:29px;letter-spacing:-.7px;color:#292569;font-weight:800;font-variant-numeric:tabular-nums}.unit{color:#8f94a9}.quick{display:flex;flex-wrap:wrap;gap:7px;margin:11px 0 24px}.quick button{border:1px solid #e6e6f4;background:white;border-radius:8px;padding:6px 10px;color:#66708c;font-size:12px}.quick button:hover{border-color:#837af8;color:#4e45c3}
+    .group-h{display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:800;margin:22px 0 13px}.group-h small{font-size:11px;font-weight:500;color:#929aae}.fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}.f{min-width:0}.f.full{grid-column:1/-1}.f label{display:block;color:#5c6981;font-size:12px;font-weight:650;margin-bottom:6px}.f input,.f select{height:42px;border:1px solid #e4e8f0;border-radius:9px;padding:0 11px;outline:0;background:white;color:#263252;width:100%;font-size:13px}.f input:focus,.f select:focus{border-color:#7368f7;box-shadow:0 0 0 3px #8e82f51b}.hint{font-size:11px;color:#939aaf;margin:5px 0 0}.divider{height:1px;background:#eef0f6;margin-top:21px}
+    .checkline{display:flex;align-items:flex-start;gap:9px;color:#69738c;font-size:12px;margin-top:16px}.checkline input{accent-color:#6459ed;margin-top:3px}.help{background:#f8f9ff;padding:10px 13px;border-radius:9px;color:#7f89a3;font-size:11px;margin-top:17px}.err{color:#b74455;background:#fff0f0;border:1px solid #ffe0e0;border-radius:10px;padding:12px;display:none;margin-top:14px}.err.on{display:block}
+    .hero{padding:22px 24px;background:linear-gradient(135deg,#252a68,#4540ac);color:white}.hero small{color:#cbd0ff;font-size:12px}.hero-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.hero-num{font-size:clamp(28px,3.2vw,41px);font-weight:850;letter-spacing:-1px;line-height:1.32;margin:5px 0 8px;font-variant-numeric:tabular-nums;word-break:break-word}.hero-sub{color:#d8d9ff;font-size:11px}.hero-mini{background:#ffffff1b;border:1px solid #ffffff24;padding:6px 10px;border-radius:100px;font-size:11px;color:#ebeaff}
+    .summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:20px 24px}.metric{border:1px solid #ebedf6;background:#fcfdff;border-radius:12px;padding:14px}.metric .title{color:#858da2;font-size:11.5px}.metric .num{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums;color:#212c55;margin-top:2px}.metric.positive .num{color:#5148ce}
+    .res-head{display:flex;align-items:center;justify-content:space-between;margin:24px 24px 10px}.res-head h3{font-size:14px;margin:0}.ghost{border:1px solid #e1e3f5;color:#584dd2;background:white;font-size:11px;border-radius:8px;padding:6px 10px;font-weight:700}.ghost:hover{background:#f7f6ff}.ledger{margin:0 24px;border-top:1px solid #eff0f7}.ledger-line{display:flex;gap:12px;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f0f2f8;color:#64718a;font-size:12px}.ledger-line strong{color:#283454;font-weight:760;font-variant-numeric:tabular-nums}.ledger-line .indent{margin-left:12px}.ledger-line.final{font-size:13px;color:#232c50;font-weight:780}.ledger-line.final strong{color:#5444d4;font-size:14px}
+    .step{font-size:12px;line-height:1.85;margin:0 24px 22px;color:#64728b;background:#f6f7fd;padding:13px 15px;border-radius:10px;white-space:pre-line}.flags{margin:13px 24px 24px;display:grid;gap:8px}.flag{border-left:3px solid #e8a657;background:#fffaf2;color:#946333;font-size:11.5px;padding:9px 11px;border-radius:5px}.flag.good{background:#f2faf7;border-left-color:#4ab99a;color:#397963}.controls{padding:0 24px 22px;display:flex;gap:8px;flex-wrap:wrap}.primary{border:0;background:#6256e7;color:white;border-radius:9px;padding:10px 16px;font-weight:720}.primary:hover{background:#4e42d2}.secondary{border:1px solid #dfe3f2;background:white;color:#5d6682;border-radius:9px;padding:10px 13px;font-size:12px}
+    .below{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;margin-top:22px}.info-card{background:#fff;border:1px solid #eceefa;border-radius:16px;padding:22px;box-shadow:var(--shadow)}.info-card h3{font-size:15px;margin:0 0 12px}.info-card p,.info-card li{color:#6b7890;font-size:12px;margin:8px 0}.info-card ul{padding-left:18px;margin:0}.source-links{display:flex;gap:8px;flex-wrap:wrap}.source-links a{border:1px solid #e6e8f3;padding:7px 10px;border-radius:8px;color:#5b60a1;font-size:11px}
+    .hide{display:none!important}.newtag{display:inline-block;color:#5a57bf;background:#efefff;border-radius:50px;padding:3px 9px;font-size:10px;font-weight:700}.footer{color:#9aa1b4;text-align:center;font-size:11px;margin-top:26px}
+    @media(max-width:1250px){.workspace{grid-template-columns:1fr}.below{grid-template-columns:1fr 1fr}main{padding:28px}}
+    @media(max-width:850px){.app{display:block}aside{position:static;min-height:auto;display:block;padding:14px 18px}.brand{margin:0 0 12px}.side-label,.side-bottom{display:none}.side-nav{display:flex;gap:7px}.nav{width:auto;justify-content:center;margin:0;padding:10px 12px;flex:1}.nav span{font-size:15px}main{padding:19px 14px 30px}.topbar{align-items:flex-start}.topbar h1{font-size:23px}.version{font-size:10px;padding:5px 9px}.workspace{display:block}.panel{margin-bottom:14px}.below{grid-template-columns:1fr;gap:14px;margin-top:0}.notice{font-size:11px}.panel-head{padding:18px 18px 10px}.body{padding:0 18px 20px}.summary-grid,.ledger,.step,.flags{margin-left:18px;margin-right:18px}.res-head{margin-left:18px;margin-right:18px}.controls{padding-left:18px;padding-right:18px}.hero{padding:20px 18px}.summary-grid{gap:9px}.metric{padding:11px}.metric .num{font-size:17px}}
+    @media(max-width:380px){.fields{grid-template-columns:1fr}.f.full{grid-column:auto}.amount-wrap input{font-size:25px}.hero-num{font-size:28px}.nav{font-size:11px;padding:9px 7px}}
+    @media print{aside,.notice,.topbar,.left-col,.below,.controls,.footer,.quick{display:none!important}.app{display:block}main{padding:0}.workspace{display:block}.panel{box-shadow:none;break-inside:avoid}.right-col{width:100%}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand"><div class="logo">≋</div><div><strong>税薪测算台</strong><small>HR · PAYROLL TOOLS</small></div></div>
+    <div class="side-label">计算工具</div>
+    <div class="side-nav"><button class="nav active" data-tab="labor"><span>▤</span>劳务报酬测算</button><button class="nav" data-tab="salary"><span>▦</span>工资薪金测算</button></div>
+    <div class="side-bottom"><b>本地计算 · 隐私友好</b><br/>无需登录，不上传任何金额或个人数据。<br/><br/>政策参数参考 2026 年 11 月现行规定。</div>
+  </aside>
+  <main>
+    <div class="topbar"><div><div class="eyebrow">PAYROLL & TAX CALCULATOR</div><h1>税后倒推税前 <span style="font-weight:400;color:#9ba0b7">/</span> 薪酬测算</h1><p>给兼职老师算课酬、给员工核工资，一笔一笔算清楚。</p></div><div class="version">2026 年 11 月规则</div></div>
+    <div class="notice"><span class="info">ⓘ</span><div><b>使用边界：</b>劳务模块适用于一般居民个人劳务报酬预扣预缴（非平台特殊累计预扣），工资模块适用于一般工资薪金累计预扣。<b>测算不等于税务申报结论</b>，正式支付以具体票据、主管税务机关和个税扣缴系统结果为准。</div></div>
+    <div class="workspace">
+      <section class="panel left-col">
+        <div class="panel-head"><div><div class="panel-title" id="formTitle">测算参数</div><p class="panel-sub">支持税后倒推和税前正算</p></div><span class="newtag" id="modeTag">居民个人劳务</span></div>
+        <div class="body">
+          <div class="seg"><button id="reverseButton" class="active" data-mode="reverse">税后 → 税前</button><button id="forwardButton" data-mode="forward">税前 → 税后</button></div>
+          <label class="amount-lab" id="inputLabel" for="amount">目标最终税后所得</label>
+          <div class="amount-wrap"><span class="currency">¥</span><input type="number" id="amount" value="50000" min="0" step="0.01" inputmode="decimal" aria-label="金额"/><span class="unit">元</span></div>
+          <div class="quick"><button data-set="2000">2,000</button><button data-set="10000">10,000</button><button data-set="20000">20,000</button><button data-set="50000">50,000</button><button data-set="100000">100,000</button></div>
+          <div id="laborForm">
+            <div class="group-h">基本规则 <small>与付款场景对应</small></div>
+            <div class="fields">
+              <div class="f"><label for="paymentDate">劳务支付日期</label><input type="date" id="paymentDate" value="2026-11-04"/></div>
+              <div class="f"><label for="serviceType">服务类别</label><select id="serviceType"><option value="education">教育服务 / 课酬</option><option value="consult">咨询服务</option><option value="software">软件 / 研发 / 设计服务</option><option value="culture">文化 / 影视制作服务</option><option value="other">其他劳务（需核实扣缴）</option></select></div>
+              <div class="f full"><label for="vatPay">增值税缴纳状态</label><select id="vatPay"><option value="unit">企业在付款时代扣增值税及附加</option><option value="prepaid">自然人已自行缴清增值税及附加</option><option value="other">该类交易不由企业扣缴（自行核实）</option></select></div>
+              <div class="f full" id="netBasisWrap"><label for="netBasis">「税后」金额的定义</label><select id="netBasis"><option value="economic">最终净得：扣掉本笔所有税费</option><option value="bank">银行到账：只看本次公司转账金额</option></select><p class="hint">已自行缴过增值税时，「最终净得」与「公司转账到账」可能不同。</p></div>
+            </div>
+            <div class="divider"></div>
+            <div class="group-h">增值税设置 <small>2026—2027 示例税率</small></div>
+            <div class="fields">
+              <div class="f"><label for="vatRule">增值税状态</label><select id="vatRule"><option value="auto">自动：按次（日）起征点 1,000 元</option><option value="charge">应税：全额计税</option><option value="exempt">免税：经确认适用优惠</option></select></div>
+              <div class="f"><label for="vatRate">增值税征收率 (%)</label><input id="vatRate" type="number" value="1" min="0" max="30" step="0.1"/></div>
+              <div class="f"><label for="dayOther">同日同一付款单位其他劳务额 (元)</label><input id="dayOther" type="number" value="0" min="0" step="0.01"/></div>
+              <div class="f"><label for="monthOther">本月其他不含税销售额 (元)</label><input id="monthOther" type="number" value="0" min="0" step="0.01"/></div>
+            </div>
+            <div class="divider"></div>
+            <div class="group-h">附加税费与个税 <small>可根据实际情况调整</small></div>
+            <div class="fields">
+              <div class="f"><label for="cityRate">城建税地区</label><select id="cityRate"><option value="7">市区（7%）</option><option value="5">县城 / 镇（5%）</option><option value="1">其他地区（1%）</option></select></div>
+              <div class="f"><label for="cityDiscount">六税两费减半优惠</label><select id="cityDiscount"><option value="0.5">适用：减半</option><option value="1">不适用：全额</option></select></div>
+              <div class="f full"><label for="educationFee">教育费附加及地方教育附加</label><select id="educationFee"><option value="auto">按条件自动：本月不超过 10 万元时免征</option><option value="exempt">确认免征</option><option value="charge">确认征收（3% + 2%，再考虑减半）</option></select></div>
+              <div class="f full"><label for="otherDeduct">其他已确认可扣的税费 (元，可选)</label><input id="otherDeduct" type="number" min="0" step="0.01" value="0"/><p class="hint">仅用于个人所得税应纳税所得额扣除，不计入本次现金流出；避免重复填写附加税费。</p></div>
+            </div>
+            <div class="help">计算口径：先剔除增值税；按不含增值税收入计算劳务预扣费用（≤4,000 元减 800 元，超过按 20%）；再减去符合规定的已缴附加税费等。个税按 20% / 30% / 40% 三级预扣。按次（日）起征点按同日合并判断。</div>
+          </div>
+          <div id="salaryForm" class="hide">
+            <div class="group-h">本期扣除 <small>工资薪金累计预扣法</small></div>
+            <div class="fields">
+              <div class="f"><label for="currStandard">本期基本减除费用 (元)</label><input id="currStandard" type="number" value="5000" min="0" step="0.01"/></div>
+              <div class="f"><label for="currSocial">本期个人三险一金 (元)</label><input id="currSocial" type="number" value="0" min="0" step="0.01"/></div>
+              <div class="f"><label for="currSpecial">本期专项附加扣除 (元)</label><input id="currSpecial" type="number" value="0" min="0" step="0.01"/></div>
+              <div class="f"><label for="currOther">本期其他税前扣除 (元)</label><input id="currOther" type="number" value="0" min="0" step="0.01"/></div>
+              <div class="f full"><label for="currCash">本期其他实际扣款（税后现金扣除）</label><input id="currCash" type="number" value="0" min="0" step="0.01"/></div>
+            </div>
+            <div class="divider"></div>
+            <div class="group-h">上期累计数据 <small>从个税扣缴报表取得</small></div>
+            <div class="fields">
+              <div class="f"><label for="prevGross">截至上期累计工资收入</label><input id="prevGross" type="number" value="0" min="0" step="0.01"/></div>
+              <div class="f"><label for="prevStandard">截至上期累计基本减除费用</label><input id="prevStandard" type="number" value="0" min="0" step="0.01"/></div>
+              <div class="f"><label for="prevSocial">截至上期累计三险一金</label><input id="prevSocial" type="number" value="0" min="0" step="0.01"/></div>
+              <div class="f"><label for="prevSpecial">截至上期累计专项附加扣除</label><input id="prevSpecial" type="number" value="0" min="0" step="0.01"/></div>
+              <div class="f"><label for="prevOther">截至上期累计其他税前扣除</label><input id="prevOther" type="number" value="0" min="0" step="0.01"/></div>
+              <div class="f"><label for="prevPaid">截至上期累计已预扣个税</label><input id="prevPaid" type="number" value="0" min="0" step="0.01"/></div>
+            </div>
+            <div class="help">使用一般居民个人工资薪金累计预扣法，不适用于单独计税的全年一次性奖金、特殊简化预扣、非居民个人及其他特殊情形。社保公积金按个人实扣数填报。</div>
+          </div>
+          <div id="error" role="alert" class="err"></div>
+        </div>
+      </section>
+      <section class="panel right-col" id="results">
+        <div class="hero"><div class="hero-top"><small id="heroLabel">建议含税开票 / 企业总支出</small><span class="hero-mini" id="heroMode">倒推结果</span></div><div class="hero-num" id="heroValue">¥—</div><div class="hero-sub" id="heroNote">实时计算，精确到分</div></div>
+        <div class="summary-grid"><div class="metric positive"><div class="title" id="netLabel">老师最终税后所得</div><div class="num" id="netValue">¥—</div></div><div class="metric"><div class="title" id="bankLabel">公司实际转给个人</div><div class="num" id="bankValue">¥—</div></div><div class="metric"><div class="title" id="pitLabel">预扣个人所得税</div><div class="num" id="pitValue">¥—</div></div><div class="metric"><div class="title" id="vatLabel">增值税及附加税费</div><div class="num" id="vatValue">¥—</div></div></div>
+        <div class="res-head"><h3>逐项明细</h3><button id="printButton" class="ghost">打印 / 保存 PDF</button></div>
+        <div class="ledger" id="ledger"></div>
+        <div class="res-head"><h3>计算过程</h3></div><div class="step" id="mathSteps">请填写左侧数据。</div>
+        <div class="flags" id="flags"></div>
+        <div class="controls"><button id="copyButton" class="primary">复制测算结果</button><button id="downloadButton" class="secondary">导出 CSV 明细</button><button id="resetButton" class="secondary">恢复默认设置</button></div>
+      </section>
+    </div>
+    <div class="below"><section class="info-card"><h3>使用时重点核对</h3><ul><li>同一自然人在同一天向同一付款单位提供多笔应税服务，应按规定汇总核对起征点；不可通过拆分付款规避计税。</li><li>“个人已缴增值税”不意味着税费为零，只表示企业无须重复代扣；公司转账额与个人最终净得可能不同。</li><li>教育费附加、地方教育附加的月销售额减免，需要核验同一自然人的当月真实销售额及适用条件。</li><li>本工具计算的是本次支付预扣税，年度综合所得汇算可能多退少补；不是个人全年最终个税。</li></ul></section><section class="info-card"><h3>官方政策依据 <span class="newtag">可点击核对</span></h3><div class="source-links"><a href="https://fgk.chinatax.gov.cn/zcfgk/c102416/c5252181/content.html" target="_blank" rel="noopener noreferrer">2026 年第 28 号（增值税扣缴）</a><a href="https://www.mof.gov.cn/jrttts/202602/t20260203_3983175.htm" target="_blank" rel="noopener noreferrer">2026 年第 10 号（1%、起征点）</a><a href="https://12366.chinatax.gov.cn/bzds/070/070-5-4.html" target="_blank" rel="noopener noreferrer">居民个人劳务预扣规定</a><a href="https://fgk.chinatax.gov.cn/zcfgk/c100015/c5200946/content.html" target="_blank" rel="noopener noreferrer">工资薪金累计预扣规则</a><a href="https://qingdao.chinatax.gov.cn/ssfg2019/cjwt/cjwtqt/202405/t20240517_87478.html" target="_blank" rel="noopener noreferrer">教育附加10万元减免</a><a href="https://zhejiang.chinatax.gov.cn/art/2018/12/29/art_17938_428815.html" target="_blank" rel="noopener noreferrer">个税预扣申报表填报口径</a></div><p>更新基准：2026-11-04。2027 年以后税收优惠可能调整，请重新核对政策。</p></section></div>
+    <div class="footer">税薪测算台 · 单文件静态网页 · 所有运算均在本机浏览器执行 · 非官方税务申报软件</div>
+  </main>
+</div>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const allInputs = [...document.querySelectorAll('input,select')];
+  const money = c => '¥' + (c/100).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const yuan = c => (c/100).toFixed(2);
+  const cents = n => Math.round(Number(n) * 100);
+  const round = n => Math.round(n + 1e-9);
+  const val = id => Number($(id).value);
+  const cval = id => cents(val(id));
+  let tab = 'labor', mode = 'reverse', last = null;
+  const LABOR_RATE = [[2000000,.20,0],[5000000,.30,200000],[Infinity,.40,700000]];
+  const SALARY_RATE = [[3600000,.03,0],[14400000,.10,252000],[30000000,.20,1692000],[42000000,.25,3192000],[66000000,.30,5292000],[96000000,.35,8592000],[Infinity,.45,18192000]];
+  function taxTable(base, table){
+    const taxable = Math.max(0,base);
+    if (taxable===0) return {tax:0,rate:0,quick:0};
+    const row=table.find(r => taxable <= r[0]);
+    return {tax:Math.max(0,round(taxable*row[1]-row[2])),rate:row[1],quick:row[2]};
+  }
+  function params(){
+    const p = {};
+    ['vatRate','dayOther','monthOther','otherDeduct','currStandard','currSocial','currSpecial','currOther','currCash','prevGross','prevStandard','prevSocial','prevSpecial','prevOther','prevPaid'].forEach(k=>p[k] = cval(k));
+    p.vatRate=val('vatRate');p.cityRate=val('cityRate');p.cityDiscount=val('cityDiscount');
+    p.vatRule=$('vatRule').value;p.vatPay=$('vatPay').value;p.educationFee=$('educationFee').value;p.netBasis=$('netBasis').value;
+    p.paymentDate=$('paymentDate').value;p.serviceType=$('serviceType').value;
+    return p;
+  }
+  function labor(grossNoVat,p){
+    // Input is integer cents, non-VAT service amount. VAT and surcharges are added to invoice.
+    const taxableVAT = p.vatRule==='charge' || (p.vatRule==='auto' && grossNoVat+p.dayOther >= 100000);
+    const vat = p.vatRule==='exempt' || !taxableVAT ? 0 : round(grossNoVat*p.vatRate/100);
+    const city=round(vat*p.cityRate/100*p.cityDiscount);
+    const educationExempt=p.educationFee==='exempt' || (p.educationFee==='auto' && grossNoVat+p.monthOther<=10000000);
+    const education=educationExempt?0:round(vat*.03*p.cityDiscount);
+    const localEdu=educationExempt?0:round(vat*.02*p.cityDiscount);
+    const sur=city+education+localEdu;
+    const expenses=grossNoVat<=400000?80000:round(grossNoVat*.20);
+    const pitBase=Math.max(0,grossNoVat-expenses-sur-p.otherDeduct);
+    const pitObject=taxTable(pitBase,LABOR_RATE);
+    const pit=pitObject.tax;
+    const invoice=grossNoVat+vat;
+    const bank=p.vatPay==='unit'?invoice-vat-sur-pit:invoice-pit;
+    const economic=invoice-vat-sur-pit;
+    const targetNet=p.netBasis==='bank'?bank:economic;
+    return {type:'labor',grossNoVat,invoice,vat,city,education,localEdu,sur,pitBase,pit,bank,economic,targetNet,expenses,pitObject,vatApplicable:taxableVAT&&p.vatRule!=='exempt',educationExempt};
+  }
+  function salary(gross,p){
+    const prevBase=p.prevGross-p.prevStandard-p.prevSocial-p.prevSpecial-p.prevOther;
+    const base=Math.max(0,prevBase+gross-p.currStandard-p.currSocial-p.currSpecial-p.currOther);
+    const cumulative=taxTable(base,SALARY_RATE);
+    const pit=Math.max(0,cumulative.tax-p.prevPaid);
+    const bank=gross-p.currSocial-p.currCash-pit;
+    return {type:'salary',gross,base,prevBase,cumulative,pit,bank,targetNet:bank,invoice:gross};
+  }
+  function solveOne(lower,upper,target,make){
+    if (lower>upper || make(upper).targetNet<target) return null;
+    let l=lower,r=upper;
+    while(l<r){const mid=Math.floor((l+r)/2); if(make(mid).targetNet>=target)r=mid;else l=mid+1;}
+    return l;
+  }
+  function reverse(target,p,kind){
+    const ceiling=100000000000; // ten billion RMB, in cents; bounded integer search.
+    if(kind==='salary')return salary(solveOne(0,ceiling,target,g=>salary(g,p)) ?? ceiling,p);
+    // VAT starting and education-surcharge threshold introduce downward steps in net.
+    // Search monotonic cent intervals separately instead of treating the function as globally monotone.
+    let starts=[0];
+    if(p.vatRule==='auto')starts.push(Math.max(0,100000-p.dayOther));
+    if(p.educationFee==='auto')starts.push(Math.max(0,10000000-p.monthOther+1));
+    starts=[...new Set(starts.filter(x=>Number.isFinite(x)&&x>=0&&x<=ceiling).map(Math.ceil))].sort((a,b)=>a-b);
+    let best=null;
+    for(let i=0;i<starts.length;i++){
+      const lower=starts[i],upper=i+1<starts.length?starts[i+1]-1:ceiling;
+      const ans=solveOne(lower,upper,target,g=>labor(g,p));
+      if(ans!==null && (best===null||ans<best))best=ans;
+    }
+    return labor(best??ceiling,p);
+  }
+  const escapeHTML = s => String(s).replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const line=(label,amount,strong=false,indent=false)=>`<div class="ledger-line ${strong?'final':''}"><span class="${indent?'indent':''}">${escapeHTML(label)}</span><strong>${money(amount)}</strong></div>`;
+  function validation(p){
+    const numericFields=tab==='labor'?['amount','vatRate','dayOther','monthOther','otherDeduct']:['amount','currStandard','currSocial','currSpecial','currOther','currCash','prevGross','prevStandard','prevSocial','prevSpecial','prevOther','prevPaid'];
+    for(const id of numericFields){const n=val(id); if($(id).value.trim()===''||!Number.isFinite(n)||n<0|| (id==='amount'&&n>1000000000))return `「${document.querySelector('label[for="'+id+'"]').textContent}」应填写 0 至合理范围的有效数字。`}
+    if(tab==='labor' && p.vatRate>30)return '增值税征收率超过允许输入范围，请核对。';
+    if(tab==='labor'&&!p.paymentDate)return '请先选择劳务支付日期。';
+    if(tab==='salary'&&p.currSocial+p.currCash>1e12)return '工资扣除金额超出测算范围。';
+    return '';
+  }
+  function flags(result,p){
+    const notes=[];
+    if(tab==='labor'){
+      if(p.paymentDate<'2026-11-01')notes.push('支付日期早于 2026-11-01：企业代扣自然人增值税新规尚未施行，操作方式请改按当期规则核实。');
+      if(p.paymentDate>'2027-12-31')notes.push('支付日期晚于 2027-12-31：1% 征收率、相关减半优惠等可能到期，需重新核定参数。');
+      if(p.serviceType==='other')notes.push('所选服务未必属于2026年第28号公告的七类企业扣缴服务；增值税的纳税义务及代扣主体请单独核实。');
+      if(p.vatPay==='other')notes.push('本场景未确认企业增值税扣缴义务，计算假设个人自行承担并缴纳税款；请结合具体项目核实。');
+      if(p.vatPay==='prepaid')notes.push('自然人已缴增值税及附加：企业不应重复代扣增值税；银行卡到账和扣完已缴税款后的最终净得存在差异。');
+      if(result.vat===0&&p.vatRule==='auto')notes.push('本笔按设定的同日销售额判断未达 1,000 元，增值税测算为零；当天其他交易变化会影响判断。');
+      if(result.educationExempt && result.vat>0)notes.push('已按本月累计销售额不超过10万元假设免征教育费附加及地方教育附加，建议核对本人本月全部相关销售额。');
+      if(result.grossNoVat+p.dayOther>=100000&&p.vatRule==='auto'&&p.dayOther>0)notes.push('同日多笔交易：本计算仅估算本笔税费，若之前的付款因合并达到起征点需要调整，请核对当日整体申报。');
+      if(p.otherDeduct>0)notes.push('已录入额外个税可扣税费，但不计入本次净额现金流；只在已经实际支付且依法可扣除时填写。');
+      notes.push('此处为本次劳务报酬个税预扣；年度汇算时仍需并入个人全年综合所得。');
+    } else {
+      if(p.prevPaid>result.cumulative.tax)notes.push('截至上期已扣税额高于本期计算的累计应纳税额，当前月按0元计算，不自动做当月负税款退税；请按扣缴系统核实。');
+      notes.push('工资薪金采用累计预扣法：上一期累计数据必须与个税扣缴系统一致，不能只用本月税前工资推算。');
+      notes.push('未计单位承担社保、公积金等企业额外成本，也不适用全年一次性奖金单独计税场景。');
+    }
+    return notes;
+  }
+  function renderResult(r,p,err){
+    $('error').classList.toggle('on',!!err);$('error').textContent=err||'';
+    if(err){$('heroValue').textContent='请核对输入';$('heroNote').textContent=err;return;}
+    let rows=[],steps='';
+    if(tab==='labor'){
+      $('netLabel').textContent='老师最终净得（所有税费后）';$('bankLabel').textContent='公司本次转账给老师';$('pitLabel').textContent='劳务报酬预扣个税';$('vatLabel').textContent='增值税 + 附加税费';
+      $('heroLabel').textContent=mode==='reverse'?'建议含税开票额 / 企业总支出':'本笔含税开票额 / 企业总支出';
+      $('heroValue').textContent=money(r.invoice);$('heroNote').textContent=`不含增值税劳务额 ${money(r.grossNoVat)} · 按本笔测算`;
+      $('netValue').textContent=money(r.economic);$('bankValue').textContent=money(r.bank);$('pitValue').textContent=money(r.pit);$('vatValue').textContent=money(r.vat+r.sur);
+      rows=[line('不含增值税劳务收入',r.grossNoVat),line('增值税',r.vat),line('含税开票/付款总额',r.invoice,true),line('— 城市维护建设税',r.city,false,true),line('— 教育费附加',r.education,false,true),line('— 地方教育附加',r.localEdu,false,true),line('— 个人所得税预扣额',r.pit,false,true),line('本次公司银行转账',r.bank,true),line('最终扣税后所得',r.economic,true)];
+      steps=`① 含税开票额 = 不含税劳务收入 + 增值税 = ${money(r.grossNoVat)} + ${money(r.vat)} = ${money(r.invoice)}。\n② 增值税 = 不含税劳务额 × ${p.vatRate}%${!r.vatApplicable?'（免税或未达起征点，本笔为零）':''}。\n③ 城建税 ${money(r.city)}；教育费附加 ${money(r.education)}；地方教育附加 ${money(r.localEdu)}。\n④ 个税预扣费用 = ${r.grossNoVat<=400000?'800.00 元':'不含税收入 × 20%'} = ${money(r.expenses)}。\n⑤ 个税应纳税所得额 = ${money(r.grossNoVat)} − ${money(r.expenses)} − ${money(r.sur)} − ${money(p.otherDeduct)} = ${money(r.pitBase)}。\n⑥ 预扣个人所得税 = max(0, 应纳税所得额 × ${(r.pitObject.rate*100).toFixed(0)}% − ${money(r.pitObject.quick)}) = ${money(r.pit)}。\n⑦ 最终净得 = 含税开票额 − 增值税 − 附加税费 − 个税 = ${money(r.economic)}。`;
+    }else{
+      $('netLabel').textContent='本期员工税后实发';$('bankLabel').textContent='本期税前工资';$('pitLabel').textContent='本期预扣个人所得税';$('vatLabel').textContent='个人三险一金 + 其他实扣';
+      $('heroLabel').textContent=mode==='reverse'?'需要的本期税前工资':'本期税前工资';$('heroValue').textContent=money(r.gross);$('heroNote').textContent='居民个人工资薪金 · 累计预扣法';
+      $('netValue').textContent=money(r.bank);$('bankValue').textContent=money(r.gross);$('pitValue').textContent=money(r.pit);$('vatValue').textContent=money(p.currSocial+p.currCash);
+      rows=[line('本期税前工资',r.gross,true),line('— 个人三险一金',p.currSocial,false,true),line('— 本期其他实际扣款',p.currCash,false,true),line('— 本期预扣个人所得税',r.pit,false,true),line('本期税后实发',r.bank,true),line('累计应纳税所得额（本期末）',r.base),line('累计应预扣个人所得税',r.cumulative.tax)];
+      steps=`① 上期累计税基（未截断）= 累计收入 − 累计基本减除费用 − 累计社保 − 累计专项附加扣除 − 累计其他扣除 = ${money(r.prevBase)}。\n② 本期末累计应纳税所得额 = max(0, 上期累计税基 + 本期工资 − 本期基本减除费用 − 本期个人三险一金 − 本期专项附加扣除 − 本期其他税前扣除) = ${money(r.base)}。\n③ 累计应预扣税 = max(0, 累计税基 × ${(r.cumulative.rate*100).toFixed(0)}% − ${money(r.cumulative.quick)}) = ${money(r.cumulative.tax)}。\n④ 本期个税 = max(0, 累计应预扣税 − 上期累计已扣税 ${money(p.prevPaid)}) = ${money(r.pit)}。\n⑤ 实发工资 = 本期税前工资 − 本期个人三险一金 − 其他现金扣款 − 本期个税 = ${money(r.bank)}。`;
+    }
+    $('ledger').innerHTML=rows.join('');$('mathSteps').textContent=steps;
+    $('flags').innerHTML=flags(r,p).map(n=>`<div class="flag">${escapeHTML(n)}</div>`).join('');
+    const actual=r.targetNet,expected=cval('amount');
+    const residual=mode==='reverse'?actual-expected:0;
+    if(mode==='reverse' && residual>0){$('heroNote').textContent+=` · 为确保达到目标，分位取整多出 ${money(residual)}`}
+    $('heroMode').textContent=mode==='reverse'?'倒推结果':'正算结果';
+    last={r,p,tab,mode,steps,notes:flags(r,p),inputs:val('amount')};
+  }
+  function update(){
+    const p=params();const error=validation(p);
+    if(error){renderResult(null,p,error);last=null;return;}
+    const amt=cval('amount');const make=tab==='labor'?g=>labor(g,p):g=>salary(g,p);
+    const r=mode==='forward'?make(amt):reverse(amt,p,tab);
+    renderResult(r,p,'');
+  }
+  function switchTab(next){tab=next;document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('active',n.dataset.tab===tab));$('laborForm').classList.toggle('hide',tab!=='labor');$('salaryForm').classList.toggle('hide',tab!=='salary');$('modeTag').textContent=tab==='labor'?'居民个人劳务':'工资薪金';$('amount').value=tab==='labor'?50000:15000;switchMode('reverse');}
+  function switchMode(next){mode=next;document.querySelectorAll('[data-mode]').forEach(n=>n.classList.toggle('active',n.dataset.mode===next));$('inputLabel').textContent=mode==='reverse'?(tab==='labor'?($('netBasis').value==='bank'?'目标公司转账到账额':'目标最终税后所得'):'目标本期税后实发'):(tab==='labor'?'不含增值税劳务额（税前）':'本期税前工资');update();}
+  document.querySelectorAll('.nav').forEach(n=>n.addEventListener('click',()=>switchTab(n.dataset.tab)));
+  document.querySelectorAll('[data-mode]').forEach(n=>n.addEventListener('click',()=>switchMode(n.dataset.mode)));
+  allInputs.forEach(n=>n.addEventListener('input',()=>{if(n.id==='netBasis'&&mode==='reverse')$('inputLabel').textContent=n.value==='bank'?'目标公司转账到账额':'目标最终税后所得';update()}));
+  document.querySelectorAll('[data-set]').forEach(n=>n.addEventListener('click',()=>{$('amount').value=n.dataset.set;update();}));
+  $('printButton').addEventListener('click',()=>window.print());
+  $('resetButton').addEventListener('click',()=>{document.querySelectorAll('input,select').forEach(i=>{if(i.type!=='button'){const def=i.querySelector('option[selected]');if(i.tagName==='SELECT')i.selectedIndex=0;else i.value=i.defaultValue;}});switchTab(tab);});
+  $('copyButton').addEventListener('click',async()=>{if(!last)return;const {r,p,tab,steps,notes}=last;const summary=tab==='labor'?`含税开票金额：${money(r.invoice)}\n不含税劳务报酬：${money(r.grossNoVat)}\n个税：${money(r.pit)}\n增值税：${money(r.vat)}\n城建税：${money(r.city)}\n教育附加：${money(r.education)}\n地方教育附加：${money(r.localEdu)}\n本次银行转账：${money(r.bank)}\n最终净得：${money(r.economic)}`:`税前工资：${money(r.gross)}\n实发工资：${money(r.bank)}\n个人三险一金：${money(p.currSocial)}\n预扣个税：${money(r.pit)}`;
+    const output=`【税薪测算台】\n${summary}\n\n计算过程\n${steps}\n\n注意事项\n${notes.join('\n')}`;
+    try{await navigator.clipboard.writeText(output);$('copyButton').textContent='已复制 ✓';setTimeout(()=>$('copyButton').textContent='复制测算结果',1800)}catch(e){const t=document.createElement('textarea');t.value=output;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();$('copyButton').textContent='复制完成';setTimeout(()=>$('copyButton').textContent='复制测算结果',1800)}
+  });
+  $('downloadButton').addEventListener('click',()=>{if(!last)return;const {r,p,tab}=last;const records=tab==='labor'?[['项目','金额（元）'],['含税开票额',yuan(r.invoice)],['不含增值税劳务收入',yuan(r.grossNoVat)],['增值税',yuan(r.vat)],['城建税',yuan(r.city)],['教育费附加',yuan(r.education)],['地方教育附加',yuan(r.localEdu)],['个税预扣额',yuan(r.pit)],['本次银行转账',yuan(r.bank)],['最终净得',yuan(r.economic)]]:[['项目','金额（元）'],['本期税前工资',yuan(r.gross)],['本期个人三险一金',yuan(p.currSocial)],['本期其他实扣',yuan(p.currCash)],['本期预扣个税',yuan(r.pit)],['本期实发',yuan(r.bank)],['本期末累计应纳税所得额',yuan(r.base)]];
+    const contents='\ufeff'+records.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');const blob=new Blob([contents],{type:'text/csv;charset=utf-8;'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download=`税薪测算_${tab==='labor'?'劳务':'工资'}_${new Date().toISOString().slice(0,10)}.csv`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(link.href),1500);
+  });
+  window.TaxCalc={labor,salary,reverse,params,taxTable};
+  switchTab('labor');
+})();
+</script>
+</body>
+</html>
