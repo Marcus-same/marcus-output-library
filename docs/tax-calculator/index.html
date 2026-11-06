@@ -44,8 +44,8 @@
     <div class="side-bottom"><b>本地计算 · 隐私友好</b><br/>无需登录，不上传任何金额或个人数据。<br/><br/>政策参数参考 2026 年 11 月现行规定。</div>
   </aside>
   <main>
-    <div class="topbar"><div><div class="eyebrow">PAYROLL & TAX CALCULATOR</div><h1>税后倒推税前 <span style="font-weight:400;color:#9ba0b7">/</span> 薪酬测算</h1><p>给兼职老师算课酬、给员工核工资，一笔一笔算清楚。</p></div><div class="version">2026 年 11 月规则</div></div>
-    <div class="notice"><span class="info">ⓘ</span><div><b>使用边界：</b>劳务模块适用于一般居民个人劳务报酬预扣预缴（非平台特殊累计预扣），工资模块适用于一般工资薪金累计预扣。<b>测算不等于税务申报结论</b>，正式支付以具体票据、主管税务机关和个税扣缴系统结果为准。</div></div>
+    <div class="topbar"><div><div class="eyebrow">PAYROLL & TAX CALCULATOR</div><h1>税后倒推税前 <span style="font-weight:400;color:#9ba0b7">/</span> 薪酬测算</h1><p>给兼职老师算课酬、给员工核工资，一笔一笔算清楚。</p></div><div class="version">北京 · 不使用税收优惠</div></div>
+    <div class="notice"><span class="info">ⓘ</span><div><b>北京公司默认口径：</b>劳务增值税按未减征的3%、城建税按市区7%、教育费附加3%、地方教育附加2%，不使用1%减征、六税两费减半或教育附加免征。按次起征点与个税法定费用扣除仍依法判断。<br/><b>使用边界：</b>劳务模块适用于一般居民个人劳务报酬预扣预缴（非平台特殊累计预扣），工资模块适用于一般工资薪金累计预扣。<b>测算不等于税务申报结论</b>，正式支付以具体票据、主管税务机关和个税扣缴系统结果为准。</div></div>
     <div class="workspace">
       <section class="panel left-col">
         <div class="panel-head"><div><div class="panel-title" id="formTitle">测算参数</div><p class="panel-sub">支持税后倒推和税前正算</p></div><span class="newtag" id="modeTag">居民个人劳务</span></div>
@@ -57,25 +57,25 @@
           <div id="laborForm">
             <div class="group-h">基本规则 <small>与付款场景对应</small></div>
             <div class="fields">
-              <div class="f"><label for="paymentDate">劳务支付日期</label><input type="date" id="paymentDate" value="2026-11-04"/></div>
+              <div class="f"><label for="paymentDate">劳务支付日期</label><input type="date" id="paymentDate" value="2026-11-06"/></div>
               <div class="f"><label for="serviceType">服务类别</label><select id="serviceType"><option value="education">教育服务 / 课酬</option><option value="consult">咨询服务</option><option value="software">软件 / 研发 / 设计服务</option><option value="culture">文化 / 影视制作服务</option><option value="other">其他劳务（需核实扣缴）</option></select></div>
               <div class="f full"><label for="vatPay">增值税缴纳状态</label><select id="vatPay"><option value="unit">企业在付款时代扣增值税及附加</option><option value="prepaid">自然人已自行缴清增值税及附加</option><option value="other">该类交易不由企业扣缴（自行核实）</option></select></div>
               <div class="f full" id="netBasisWrap"><label for="netBasis">「税后」金额的定义</label><select id="netBasis"><option value="economic">最终净得：扣掉本笔所有税费</option><option value="bank">银行到账：只看本次公司转账金额</option></select><p class="hint">已自行缴过增值税时，「最终净得」与「公司转账到账」可能不同。</p></div>
             </div>
             <div class="divider"></div>
-            <div class="group-h">增值税设置 <small>2026—2027 示例税率</small></div>
+            <div class="group-h">增值税设置 <small>北京无优惠默认3%，可手动调整用于情景模拟</small></div>
             <div class="fields">
               <div class="f"><label for="vatRule">增值税状态</label><select id="vatRule"><option value="auto">自动：按次（日）起征点 1,000 元</option><option value="charge">应税：全额计税</option><option value="exempt">免税：经确认适用优惠</option></select></div>
-              <div class="f"><label for="vatRate">增值税征收率 (%)</label><input id="vatRate" type="number" value="1" min="0" max="30" step="0.1"/></div>
+              <div class="f"><label for="vatRate">增值税征收率 (%)</label><input id="vatRate" type="number" value="3" min="0" max="30" step="0.1"/></div>
               <div class="f"><label for="dayOther">同日同一付款单位其他劳务额 (元)</label><input id="dayOther" type="number" value="0" min="0" step="0.01"/></div>
               <div class="f"><label for="monthOther">本月其他不含税销售额 (元)</label><input id="monthOther" type="number" value="0" min="0" step="0.01"/></div>
             </div>
             <div class="divider"></div>
             <div class="group-h">附加税费与个税 <small>可根据实际情况调整</small></div>
             <div class="fields">
-              <div class="f"><label for="cityRate">城建税地区</label><select id="cityRate"><option value="7">市区（7%）</option><option value="5">县城 / 镇（5%）</option><option value="1">其他地区（1%）</option></select></div>
-              <div class="f"><label for="cityDiscount">六税两费减半优惠</label><select id="cityDiscount"><option value="0.5">适用：减半</option><option value="1">不适用：全额</option></select></div>
-              <div class="f full"><label for="educationFee">教育费附加及地方教育附加</label><select id="educationFee"><option value="auto">按条件自动：本月不超过 10 万元时免征</option><option value="exempt">确认免征</option><option value="charge">确认征收（3% + 2%，再考虑减半）</option></select></div>
+              <div class="f"><label for="cityRate">城建税税率（北京默认市区）</label><select id="cityRate"><option value="7">北京 · 市区（7%）</option><option value="5">县城 / 镇（5%）</option><option value="1">其他地区（1%）</option></select></div>
+              <div class="f"><label for="cityDiscount">附加税费征收系数</label><select id="cityDiscount"><option value="1">北京默认：全额征收（100%）</option><option value="0.5">仅其他情景：减半（50%）</option></select></div>
+              <div class="f full"><label for="educationFee">教育费附加及地方教育附加</label><select id="educationFee"><option value="charge">北京默认：全额征收（3% + 2%）</option><option value="auto">仅其他情景：按月销售额判断免征</option><option value="exempt">仅其他情景：已确认免征</option></select></div>
               <div class="f full"><label for="otherDeduct">其他已确认可扣的税费 (元，可选)</label><input id="otherDeduct" type="number" min="0" step="0.01" value="0"/><p class="hint">仅用于个人所得税应纳税所得额扣除，不计入本次现金流出；避免重复填写附加税费。</p></div>
             </div>
             <div class="help">计算口径：先剔除增值税；按不含增值税收入计算劳务预扣费用（≤4,000 元减 800 元，超过按 20%）；再减去符合规定的已缴附加税费等。个税按 20% / 30% / 40% 三级预扣。按次（日）起征点按同日合并判断。</div>
@@ -114,7 +114,7 @@
         <div class="controls"><button id="copyButton" class="primary">复制测算结果</button><button id="downloadButton" class="secondary">导出 CSV 明细</button><button id="resetButton" class="secondary">恢复默认设置</button></div>
       </section>
     </div>
-    <div class="below"><section class="info-card"><h3>使用时重点核对</h3><ul><li>同一自然人在同一天向同一付款单位提供多笔应税服务，应按规定汇总核对起征点；不可通过拆分付款规避计税。</li><li>“个人已缴增值税”不意味着税费为零，只表示企业无须重复代扣；公司转账额与个人最终净得可能不同。</li><li>教育费附加、地方教育附加的月销售额减免，需要核验同一自然人的当月真实销售额及适用条件。</li><li>本工具计算的是本次支付预扣税，年度综合所得汇算可能多退少补；不是个人全年最终个税。</li></ul></section><section class="info-card"><h3>官方政策依据 <span class="newtag">可点击核对</span></h3><div class="source-links"><a href="https://fgk.chinatax.gov.cn/zcfgk/c102416/c5252181/content.html" target="_blank" rel="noopener noreferrer">2026 年第 28 号（增值税扣缴）</a><a href="https://www.mof.gov.cn/jrttts/202602/t20260203_3983175.htm" target="_blank" rel="noopener noreferrer">2026 年第 10 号（1%、起征点）</a><a href="https://12366.chinatax.gov.cn/bzds/070/070-5-4.html" target="_blank" rel="noopener noreferrer">居民个人劳务预扣规定</a><a href="https://fgk.chinatax.gov.cn/zcfgk/c100015/c5200946/content.html" target="_blank" rel="noopener noreferrer">工资薪金累计预扣规则</a><a href="https://qingdao.chinatax.gov.cn/ssfg2019/cjwt/cjwtqt/202405/t20240517_87478.html" target="_blank" rel="noopener noreferrer">教育附加10万元减免</a><a href="https://zhejiang.chinatax.gov.cn/art/2018/12/29/art_17938_428815.html" target="_blank" rel="noopener noreferrer">个税预扣申报表填报口径</a></div><p>更新基准：2026-11-04。2027 年以后税收优惠可能调整，请重新核对政策。</p></section></div>
+    <div class="below"><section class="info-card"><h3>使用时重点核对</h3><ul><li>同一自然人在同一天向同一付款单位提供多笔应税服务，应按规定汇总核对起征点；不可通过拆分付款规避计税。</li><li>“个人已缴增值税”不意味着税费为零，只表示企业无须重复代扣；公司转账额与个人最终净得可能不同。</li><li>北京无优惠默认全部征收教育费附加与地方教育附加；如手动启用任何优惠选项，须重新核验适用条件。</li><li>本工具计算的是本次支付预扣税，年度综合所得汇算可能多退少补；不是个人全年最终个税。</li></ul></section><section class="info-card"><h3>官方政策依据 <span class="newtag">可点击核对</span></h3><div class="source-links"><a href="https://fgk.chinatax.gov.cn/zcfgk/c102416/c5252181/content.html" target="_blank" rel="noopener noreferrer">2026 年第 28 号（增值税扣缴）</a><a href="https://www.mof.gov.cn/jrttts/202602/t20260203_3983175.htm" target="_blank" rel="noopener noreferrer">2026 年第 10 号（1%、起征点）</a><a href="https://12366.chinatax.gov.cn/bzds/070/070-5-4.html" target="_blank" rel="noopener noreferrer">居民个人劳务预扣规定</a><a href="https://fgk.chinatax.gov.cn/zcfgk/c100015/c5200946/content.html" target="_blank" rel="noopener noreferrer">工资薪金累计预扣规则</a><a href="https://qingdao.chinatax.gov.cn/ssfg2019/cjwt/cjwtqt/202405/t20240517_87478.html" target="_blank" rel="noopener noreferrer">教育附加10万元减免</a><a href="https://zhejiang.chinatax.gov.cn/art/2018/12/29/art_17938_428815.html" target="_blank" rel="noopener noreferrer">个税预扣申报表填报口径</a></div><p>更新基准：2026-11-06。本站北京默认口径不采用优惠，特殊情景改动需单独核对。</p></section></div>
     <div class="footer">税薪测算台 · 单文件静态网页 · 所有运算均在本机浏览器执行 · 非官方税务申报软件</div>
   </main>
 </div>
@@ -210,7 +210,7 @@
     const notes=[];
     if(tab==='labor'){
       if(p.paymentDate<'2026-11-01')notes.push('支付日期早于 2026-11-01：企业代扣自然人增值税新规尚未施行，操作方式请改按当期规则核实。');
-      if(p.paymentDate>'2027-12-31')notes.push('支付日期晚于 2027-12-31：1% 征收率、相关减半优惠等可能到期，需重新核定参数。');
+      if(p.paymentDate>'2027-12-31' && (p.vatRate<3 || p.cityDiscount<1 || p.educationFee!=='charge'))notes.push('所选情景包含税收优惠，且支付日期晚于 2027-12-31，请重新核对优惠有效期。');
       if(p.serviceType==='other')notes.push('所选服务未必属于2026年第28号公告的七类企业扣缴服务；增值税的纳税义务及代扣主体请单独核实。');
       if(p.vatPay==='other')notes.push('本场景未确认企业增值税扣缴义务，计算假设个人自行承担并缴纳税款；请结合具体项目核实。');
       if(p.vatPay==='prepaid')notes.push('自然人已缴增值税及附加：企业不应重复代扣增值税；银行卡到账和扣完已缴税款后的最终净得存在差异。');
