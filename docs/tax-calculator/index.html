@@ -65,8 +65,8 @@
             <div class="divider"></div>
             <div class="group-h">增值税设置 <small>北京无优惠默认3%，可手动调整用于情景模拟</small></div>
             <div class="fields">
-              <div class="f"><label for="vatRule">增值税状态</label><select id="vatRule"><option value="auto">自动：按次（日）起征点 1,000 元</option><option value="charge">应税：全额计税</option><option value="exempt">免税：经确认适用优惠</option></select></div>
-              <div class="f"><label for="vatRate">增值税征收率 (%)</label><input id="vatRate" type="number" value="3" min="0" max="30" step="0.1"/></div>
+              <div class="f"><label for="vatRule">增值税状态</label><select id="vatRule"><option value="auto">自动：按次（日）起征点 1,000 元</option><option value="charge">应税：全额计税</option><option value="exempt">依法免税：已确认适用依据</option><option value="zero">增值税按0元测算（人工指定）</option></select></div>
+              <div class="f"><label for="vatRate">增值税征收率 (%)（可填写0）</label><input id="vatRate" type="number" value="3" min="0" max="30" step="0.1"/></div>
               <div class="f"><label for="dayOther">同日同一付款单位其他劳务额 (元)</label><input id="dayOther" type="number" value="0" min="0" step="0.01"/></div>
               <div class="f"><label for="monthOther">本月其他不含税销售额 (元)</label><input id="monthOther" type="number" value="0" min="0" step="0.01"/></div>
             </div>
@@ -149,7 +149,7 @@
   function labor(grossNoVat,p){
     // Input is integer cents, non-VAT service amount. VAT and surcharges are added to invoice.
     const taxableVAT = p.vatRule==='charge' || (p.vatRule==='auto' && grossNoVat+p.dayOther >= 100000);
-    const vat = p.vatRule==='exempt' || !taxableVAT ? 0 : round(grossNoVat*p.vatRate/100);
+    const vat = p.vatRule==='zero' || p.vatRule==='exempt' || !taxableVAT ? 0 : round(grossNoVat*p.vatRate/100);
     const city=round(vat*p.cityRate/100*p.cityDiscount);
     const educationExempt=p.educationFee==='exempt' || (p.educationFee==='auto' && grossNoVat+p.monthOther<=10000000);
     const education=educationExempt?0:round(vat*.03*p.cityDiscount);
@@ -215,6 +215,7 @@
       if(p.vatPay==='other')notes.push('本场景未确认企业增值税扣缴义务，计算假设个人自行承担并缴纳税款；请结合具体项目核实。');
       if(p.vatPay==='prepaid')notes.push('自然人已缴增值税及附加：企业不应重复代扣增值税；银行卡到账和扣完已缴税款后的最终净得存在差异。');
       if(result.vat===0&&p.vatRule==='auto')notes.push('本笔按设定的同日销售额判断未达 1,000 元，增值税测算为零；当天其他交易变化会影响判断。');
+      if(p.vatRule==='zero' || p.vatRate===0)notes.push('当前人为设置增值税为0元，城建税、教育费附加和地方教育附加随之为0；这仅是测算参数，不代表依法免税或已经缴纳税款，请以实际申报结果核实。');
       if(result.educationExempt && result.vat>0)notes.push('已按本月累计销售额不超过10万元假设免征教育费附加及地方教育附加，建议核对本人本月全部相关销售额。');
       if(result.grossNoVat+p.dayOther>=100000&&p.vatRule==='auto'&&p.dayOther>0)notes.push('同日多笔交易：本计算仅估算本笔税费，若之前的付款因合并达到起征点需要调整，请核对当日整体申报。');
       if(p.otherDeduct>0)notes.push('已录入额外个税可扣税费，但不计入本次净额现金流；只在已经实际支付且依法可扣除时填写。');
