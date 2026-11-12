@@ -180,6 +180,7 @@
             </div>
             <div class="actions">
               <a class="download" href="${esc(latest.download)}" download>下载最新版</a>
+              ${item.id === "taskhub" ? '<a href="./taskhub/">安装说明</a>' : ""}
               <button class="details-toggle" type="button" aria-expanded="false" aria-controls="${detailId}">查看具体内容</button>
             </div>
           </div>

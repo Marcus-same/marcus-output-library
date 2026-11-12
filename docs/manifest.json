@@ -1,6 +1,47 @@
 {
-  "generatedAt": "2026-10-14T03:48:07.0538480Z",
+  "generatedAt": "2026-11-12T07:49:07.947Z",
   "artifacts": [
+    {
+      "id": "taskhub",
+      "name": "TaskHub · Obsidian 待办工作台",
+      "type": "Obsidian 插件",
+      "summary": "在 Obsidian 管理待办、重复任务和完成记录。",
+      "content": "支持任务安排、按星期或月日重复、完成时间戳和完成日期搜索。安装说明含 Windows 和 iPhone 的配置方式。",
+      "versions": [
+        {
+          "version": "v1.8.2",
+          "updatedAt": "2026-11-12T07:45:00Z",
+          "archivedAt": "2026-11-12T07:45:00Z",
+          "hash": "2e8a9e72ef92dee2519f1bccd17fe4e0c6353cb3c868c3482683fa2c7e07d697",
+          "size": 82840,
+          "fileCount": 21,
+          "download": "./downloads/TaskHub-1.8.2.zip",
+          "files": [
+            "browser-extension/manifest.json",
+            "browser-extension/popup.html",
+            "browser-extension/popup.js",
+            "source/build.cjs",
+            "source/package.json",
+            "source/tsconfig.json",
+            "source/src/core.ts",
+            "source/src/main.ts",
+            "source/tests/core.test.cjs",
+            "source/tests/plugin.test.cjs",
+            "source/windows/TaskHub-Capture.cmd",
+            "source/windows/TaskHub-Capture.ps1",
+            "source/windows/TaskHub-Wake.cmd",
+            "source/windows/TaskHub-Wake.cs",
+            "source/windows/TaskHub-Wake.ps1",
+            "taskhub/main.js",
+            "taskhub/manifest.json",
+            "taskhub/styles.css",
+            "taskhub/TaskHub-Wake.exe",
+            "README-zh.md",
+            "UPGRADE-1.8.2-zh.md"
+          ]
+        }
+      ]
+    },
     {
       "id": "boss-hiring-assistant-standalone",
       "name": "BOSS Hiring Assistant · 独立安装版",
