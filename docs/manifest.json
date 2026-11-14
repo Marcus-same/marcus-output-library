@@ -1,13 +1,37 @@
 {
-  "generatedAt": "2026-11-14T13:57:55.567Z",
+  "generatedAt": "2026-11-14T14:07:35.748Z",
   "artifacts": [
     {
       "id": "taskhub",
       "name": "TaskHub · Obsidian 待办工作台",
       "type": "Obsidian 插件",
       "summary": "在 Obsidian 管理待办、重复任务和完成记录。",
-      "content": "支持任务安排、按星期或月日重复、完成时间戳和完成日期搜索。安装说明含 Windows 和 iPhone 的配置方式。",
+      "content": "支持日历分栏、拖拽排期、未排期视图、完成状态筛选。1.12.5 修复日历漏刷新和失效编辑窗口，28 项插件回归测试通过。",
       "versions": [
+        {
+          "version": "v1.12.5 本地补丁修复版",
+          "updatedAt": "2026-11-14T14:07:35.748Z",
+          "archivedAt": "2026-11-14T14:07:35.748Z",
+          "hash": "42ead9f106f61d82a1785b742ef02259ccb9b27802cc2e2f93253c1926587087",
+          "size": 81129,
+          "fileCount": 13,
+          "download": "./downloads/TaskHub-1.12.5-local-fix.zip",
+          "files": [
+            "taskhub/calendar.html",
+            "taskhub/main.js",
+            "taskhub/manifest.json",
+            "taskhub/styles.css",
+            "taskhub/TaskHub-Wake.exe",
+            "taskhub/tests/plugin.test.cjs",
+            "taskhub/windows/TaskHub-Capture.cmd",
+            "taskhub/windows/TaskHub-Capture.ps1",
+            "taskhub/windows/TaskHub-Wake.cmd",
+            "taskhub/windows/TaskHub-Wake.cs",
+            "taskhub/windows/TaskHub-Wake.ps1",
+            "fix-local-1125.cjs",
+            "README-zh.txt"
+          ]
+        },
         {
           "version": "v1.12.3 本地补丁版（20261114）",
           "updatedAt": "2026-11-14T13:57:55.567Z",
