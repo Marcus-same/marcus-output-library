@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-14T17:12:00Z",
+  "generatedAt": "2026-11-14T13:57:55.567Z",
   "artifacts": [
     {
       "id": "taskhub",
@@ -8,6 +8,22 @@
       "summary": "在 Obsidian 管理待办、重复任务和完成记录。",
       "content": "支持任务安排、按星期或月日重复、完成时间戳和完成日期搜索。安装说明含 Windows 和 iPhone 的配置方式。",
       "versions": [
+        {
+          "version": "v1.12.3 本地补丁版（20261114）",
+          "updatedAt": "2026-11-14T13:57:55.567Z",
+          "archivedAt": "2026-11-14T13:57:55.567Z",
+          "hash": "6d5dcbd4400d607ca06d807cc624a103fbed2bb1c41af5ba78a81db63b393843",
+          "size": 52904,
+          "fileCount": 5,
+          "download": "./downloads/TaskHub-1.12.3-local-patch-20261114.zip",
+          "files": [
+            "taskhub/main.js",
+            "taskhub/manifest.json",
+            "taskhub/styles.css",
+            "taskhub/TaskHub-Wake.exe",
+            "taskhub/安装说明.txt"
+          ]
+        },
         {
           "version": "v1.12.3 RC",
           "updatedAt": "2026-11-14T17:12:00Z",
