@@ -1,6 +1,32 @@
 {
-  "generatedAt": "2026-11-14T14:07:35.748Z",
+  "generatedAt": "2026-11-19T06:30:00Z",
   "artifacts": [
+    {
+      "id": "manage-candidate-board",
+      "name": "候选人看板管理 Skill",
+      "type": "招聘管理 Skill",
+      "summary": "整理简历、突出院校，维护岗位、面试状态及独立备注，生成可编辑看板和汇报版。",
+      "content": "支持待初试、待复试、谈薪中、已接 Offer；提供默认折叠筛选、自适应字号、简历预览和白名单数据维护脚本。安装：解压 manage-candidate-board 文件夹，放入所用 AI 工具的 skills 目录；在对话中使用 $manage-candidate-board。此公开包只有通用模板，不含真实候选人信息。",
+      "versions": [
+        {
+          "version": "v1.0.0",
+          "updatedAt": "2026-11-19T06:30:00Z",
+          "archivedAt": "2026-11-19T06:30:00Z",
+          "hash": "199c8ed42b4001a59fb2a1394473719ab08d38d865430750b6bd4ee13149649b",
+          "size": 18966,
+          "fileCount": 6,
+          "download": "./downloads/manage-candidate-board-v1.0.0-20261119.zip",
+          "files": [
+            "manage-candidate-board/SKILL.md",
+            "manage-candidate-board/agents/openai.yaml",
+            "manage-candidate-board/assets/dashboard.html",
+            "manage-candidate-board/scripts/manage_board.py",
+            "manage-candidate-board/references/schema.md",
+            "manage-candidate-board/references/workflow.md"
+          ]
+        }
+      ]
+    },
     {
       "id": "taskhub",
       "name": "TaskHub · Obsidian 待办工作台",
